@@ -16,14 +16,25 @@ namespace Cells.Components
         [SerializeField] private int minValue = 0;
 
         [SerializeField] private UnityEvent<HealthChangedEventArgs> healthChangedEvent;
+        [SerializeField] private UnityEvent<HealthChangedEventArgs> healthInitializedEvent;
 
         public event Action<HealthChangedEventArgs> HealthChanged;
-
+        
         public override string DefaultTag => CellTags.HasHealth;
 
         protected override void Initialize()
         {
             HealthChanged += healthChangedEvent.Invoke;
+        }
+
+        private void Start()
+        {
+            healthInitializedEvent.Invoke(new HealthChangedEventArgs(Cell)
+            {
+                CurrentValue = currentValue,
+                PreviousValue = currentValue,
+                MaxValue = MaxValue
+            });
         }
 
         public int Value
@@ -40,7 +51,7 @@ namespace Cells.Components
                     MaxValue = MaxValue
                 });
                 
-                Debug.Log("Damage received: " + (previousValue - currentValue));
+                Debug.Log("Health changed: " + (currentValue - previousValue));
             }
         }
 

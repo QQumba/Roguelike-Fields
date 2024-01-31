@@ -1,8 +1,8 @@
-﻿using System;
-using Cells;
+﻿using Cells;
 using Cells.Components;
 using GameGrid;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Game
 {
@@ -18,7 +18,13 @@ namespace Game
         private Hero heroPrefab;
 
         [SerializeField]
+        private CellContent heroContent;
+
+        [SerializeField]
         private Enemy enemyPrefab;
+
+        [SerializeField]
+        private CellContent[] prefabs;
 
         public static CellSpawner Instance;
 
@@ -39,30 +45,36 @@ namespace Game
         public Cell SpawnHero(GridController controller)
         {
             var cell = SpawnEmptyCell();
-            var hero = Instantiate(heroPrefab, cell.transform);
-            hero.GridController = controller;
+            var hero = Instantiate(heroContent, cell.transform);
 
             // I assume that hero have same sorting layer as cell and higher order within that layer then other components
             var cellRenderer = cell.GetComponent<SpriteRenderer>();
-            var heroRenderer = hero.GetComponent<Renderer>();
-            cellRenderer.sortingOrder = heroRenderer.sortingOrder - 1;
+            cellRenderer.sortingOrder = hero.GetSortingOrder() - 1;
 
-            cell.AddCellComponent(hero);
+            foreach (var component in hero.GetCellComponents())
+            {
+                if (component is Hero heroComponent)
+                {
+                    heroComponent.GridController = controller;
+                }
+                cell.AddCellComponent(component);
+            }
+            
             return cell;
         }
 
         public Cell SpawnCell(Vector3? initialScale = null)
         {
             var cell = SpawnEmptyCell(initialScale);
-            var enemy = Instantiate(enemyPrefab, cell.transform);
+
+            var i = Random.Range(0, prefabs.Length);
+            var prefabToSpawn = prefabs[i];
+            var content = Instantiate(prefabToSpawn, cell.transform);
 
             var cellRenderer = cell.GetComponent<SpriteRenderer>();
-            var componentRenderer = enemy.GetComponent<Renderer>();
-            cellRenderer.sortingOrder = componentRenderer.sortingOrder - 1;
+            cellRenderer.sortingOrder = content.GetSortingOrder() - 1;
 
-            // add all components that are on an enemy game object
-
-            var components = enemy.GetComponents<CellComponent>();
+            var components = content.GetCellComponents();
             foreach (var component in components)
             {
                 cell.AddCellComponent(component);

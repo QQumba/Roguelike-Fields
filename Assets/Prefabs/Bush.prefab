@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -4647418614263665199}
   - component: {fileID: -2501334174139592715}
   - component: {fileID: -6145034279972496410}
+  - component: {fileID: 7803166862862941185}
   m_Layer: 0
   m_Name: Bush
   m_TagString: Untagged
@@ -100,7 +101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6aa70d3c74146468e2546e2ee66a900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effects: []
 --- !u!114 &-2501334174139592715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bf1f1a230e848b38658470f8cbc5e4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effects: []
   currentValue: 4
   maxValue: 4
   minValue: 0
@@ -132,7 +131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4748a8e5bce4f52864f2cfa4c650fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effects: []
   diedEvent:
     m_PersistentCalls:
       m_Calls:
@@ -148,6 +146,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7803166862862941185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240977118306359022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c6eaac3688c46aba93288f50776e247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1983664135149855229
 GameObject:
   m_ObjectHideFlags: 0

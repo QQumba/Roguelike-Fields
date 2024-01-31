@@ -1,5 +1,4 @@
-﻿using System;
-using Animations.AsyncAnimations;
+﻿using Animations.AsyncAnimations;
 using Cells;
 using Game;
 using UnityEngine;
@@ -44,16 +43,16 @@ namespace GameGrid
             var cellIndex = _grid.IndexOf(b);
             var newCell = _spawner.SpawnCell(Vector3.zero);
 
-            await _animator.Play(new ScaleAsync(b.transform, Vector3.zero));
+            await _animator.Play(new ScaleAsync(b.transform, Vector3.zero), b);
 
             _grid.RemoveCell(b);
 
-            await _animator.Play(new MoveAsync(a.transform, _grid.GetCellPosition(cellIndex)));
+            await _animator.Play(new MoveAsync(a.transform, _grid.GetCellPosition(cellIndex)), a);
 
             _grid.SetCell(a, cellIndex);
             _grid.SetCell(newCell, heroIndex);
 
-            await _animator.Play(new ScaleAsync(newCell.transform, Vector3.one));
+            await _animator.Play(new ScaleAsync(newCell.transform, Vector3.one), newCell);
         }
 
         public async void Replace(Cell a, Cell b)
@@ -62,7 +61,7 @@ namespace GameGrid
             var position = _grid.GetCellPosition(index);
             const float rotationSpeed = 3f;
 
-            await _animator.Play(new FlipAsync(a.transform, 90, 0, rotationSpeed * 2));
+            await _animator.Play(new FlipAsync(a.transform, 90, 0, rotationSpeed * 2), a);
 
             _grid.RemoveCell(a);
             _grid.SetCell(b, index);
@@ -70,12 +69,12 @@ namespace GameGrid
             var emptyCell = _spawner.SpawnEmptyCell();
             emptyCell.transform.position = position;
 
-            await _animator.Play(new FlipAsync(emptyCell.transform, 270, 90, rotationSpeed));
+            await _animator.Play(new FlipAsync(emptyCell.transform, 270, 90, rotationSpeed), emptyCell);
 
             Destroy(emptyCell.gameObject);
             b.gameObject.SetActive(true);
 
-            await _animator.Play(new FlipAsync(b.transform, 360, 270, rotationSpeed * 2));
+            await _animator.Play(new FlipAsync(b.transform, 360, 270, rotationSpeed * 2), b);
         }
     }
 }

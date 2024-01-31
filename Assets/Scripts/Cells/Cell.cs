@@ -10,6 +10,12 @@ namespace Cells
         private readonly List<CellComponent> _components = new List<CellComponent>();
 
         /// <summary>
+        /// Indicates whether cell is animated at the moment or not.
+        /// Currently used to control hover animation.
+        /// </summary>
+        public bool IsAnimated { get; set; }
+        
+        /// <summary>
         /// Finds a cell component of type T.
         /// </summary>
         /// <typeparam name="T">Cell component type to find.</typeparam>

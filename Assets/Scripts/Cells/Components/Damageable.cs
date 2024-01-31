@@ -14,10 +14,15 @@ namespace Cells.Components
         [SerializeField]
         private UnityEvent<CellEventArgs> diedEvent;
 
+        // it looks like something that can be put on health component
+        // or health and damageable can be even merged together
+        [SerializeField]
+        private UnityEvent<CellEventArgs> healedEvent;
+        
         public Health Health => Cell.GetCellComponent<Health>();
 
         public event Action<CellEventArgs> Died;
-
+        
         public override string DefaultTag => CellTags.Damageable;
 
         protected override void Initialize()
@@ -37,6 +42,7 @@ namespace Cells.Components
         public void Heal(int healing)
         {
             Health.Value += healing;
+            healedEvent.Invoke(new CellEventArgs(Cell));
         }
 
         public void Kill()
