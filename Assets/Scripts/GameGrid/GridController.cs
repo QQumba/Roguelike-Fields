@@ -3,6 +3,7 @@ using Cells;
 using Game;
 using TurnData;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GameGrid
 {
@@ -18,6 +19,9 @@ namespace GameGrid
         private CellSpawner _spawner;
         private AsyncAnimator _animator;
 
+        [SerializeField]
+        private UnityEvent turnFinishedEvent;
+        
         public static GridController Instance { get; private set; }
 
         public TurnContext CurrentTurn { get; private set; }
@@ -150,10 +154,12 @@ namespace GameGrid
             if (CurrentTurn != null)
             {
                 CurrentTurn.TurnFinished -= CreateNewTurn;
+                CurrentTurn.TurnFinished -= turnFinishedEvent.Invoke;
             }
             
             var turnContext = new TurnContext(StartCoroutine);
             turnContext.TurnFinished += CreateNewTurn;
+            turnContext.TurnFinished += turnFinishedEvent.Invoke;
             CurrentTurn = turnContext;
         }
     }
