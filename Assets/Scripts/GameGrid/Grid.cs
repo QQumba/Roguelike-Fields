@@ -64,6 +64,11 @@ namespace GameGrid
             return IsIndexInBounds(index.x, index.y);
         }
 
+        public bool IsIndexInBounds(Vector2Int index)
+        {
+            return index.x >= 0 && index.x < Width && index.y >= 0 && index.y < Height;
+        }
+
         public bool IsIndexInBounds(int x, int y)
         {
             return x >= 0 && x < Width && y >= 0 && y < Height;
@@ -90,6 +95,11 @@ namespace GameGrid
         public bool IsCellAdjacentToHero(Cell cell)
         {
             return IsCellsAdjacent(cell, Hero, false);
+        }
+
+        public Cell GetCell(Vector2Int index)
+        {
+            return IsIndexInBounds(index.x, index.y) ? _cells[index.x, index.y].Cell : null;
         }
 
         /// <summary>

@@ -39,7 +39,7 @@ namespace TurnData
 
             var action = _actions.Dequeue();
 
-            Debug.Log($"execute: {action.Message}");
+            // Debug.Log($"execute: {action.Message}");
             action.Finished += ExecuteNext;
             // coroutineRunner(action.Invoke());
             action.StartCoroutine(coroutineRunner);

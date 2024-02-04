@@ -14,7 +14,7 @@ namespace TurnData
         
         public TurnAction(Func<IEnumerator> innerAction, string message)
         {   
-            Debug.Log($"queue: {message}");
+            // Debug.Log($"queue: {message}");
             _innerAction = innerAction;
             Message = message;
         }
