@@ -1,6 +1,6 @@
-﻿using System;
-using Animations.AsyncAnimations;
+﻿using Animations.AsyncAnimations;
 using Events;
+using GameGrid;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,28 +14,38 @@ namespace Misc
         [SerializeField]
         private float speed = 4;
 
-        private AsyncAnimator _animator;
-        private TrailRenderer trail;
-
+        private TrailRenderer _trail;
+        private GridController _gridController;
+        
         private void Start()
         {
-            trail = slash.GetComponent<TrailRenderer>();
-            _animator = AsyncAnimator.Instance;
+            _trail = slash.GetComponent<TrailRenderer>();
+            _gridController = GridController.Instance;
+            
+            // ensure that slash trail
+            slash.gameObject.SetActive(false);
         }
         
-        // looks boring, try to replace linear move with something else
-        public async void Slash(CellEventArgs args)
+        public void Slash(CellEventArgs args)
         {
             var position = args.Cell.transform.position;
 
             var (a, b) = GetOppositePointsOnCircle(position, 0.3f);
 
-            trail.Clear();
-            slash.gameObject.SetActive(false);
             slash.position = a;
             slash.gameObject.SetActive(true);
 
-            await _animator.Play(new MoveAsync(slash, b, a, speed));
+            _gridController.CurrentTurn.Next(
+                () => new MoveAsync(slash, b, a, speed).Play(),
+                "sword slash");
+            
+            _gridController.CurrentTurn.Next(
+                () =>
+                {
+                    _trail.Clear();
+                    slash.gameObject.SetActive(false);
+                },
+                "disable trail");
         }
         
         private static (Vector2 a, Vector2 b) GetOppositePointsOnCircle(Vector2 position, float radius)

@@ -34,7 +34,7 @@ namespace Animations.AsyncAnimations
                 await Task.Delay(timeToWait);
             }
 
-            await asyncAnimation.Play();
+            await asyncAnimation.PlayAsync();
             _animationsInProgress--;
         }
 

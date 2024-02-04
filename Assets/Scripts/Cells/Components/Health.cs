@@ -29,7 +29,7 @@ namespace Cells.Components
 
         private void Start()
         {
-            healthInitializedEvent.Invoke(new HealthChangedEventArgs(Cell)
+            healthInitializedEvent?.Invoke(new HealthChangedEventArgs(Cell)
             {
                 CurrentValue = currentValue,
                 PreviousValue = currentValue,
@@ -50,8 +50,6 @@ namespace Cells.Components
                     PreviousValue = previousValue,
                     MaxValue = MaxValue
                 });
-                
-                Debug.Log("Health changed: " + (currentValue - previousValue));
             }
         }
 

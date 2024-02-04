@@ -10,7 +10,9 @@ public class InputHandler : MonoBehaviour
     private Grid _grid;
     private GridController _controller;
     private AsyncAnimator _animator;
-    
+
+    private bool _waitForInput = true;
+
     private void Start()
     {
         _grid = FindObjectOfType<Grid>();
@@ -22,19 +24,34 @@ public class InputHandler : MonoBehaviour
 
     private void HandleClick(Cell cell)
     {
-        if (_animator.IsAnimating)
+        if (!_waitForInput)
         {
             return;
         }
-        
+
         if (!_grid.IsCellAdjacentToHero(cell))
         {
             return;
         }
 
-        var hero = _grid.Hero.GetCellComponent<Hero>();
-        cell.Accept(hero);
-        
+        _controller.CurrentTurn.Next(
+            () => new ScaleAsync(cell.transform, new Vector3(0.85f, 0.85f, 1f), speed: 16).Play(cell),
+            "scale cell to normal");
+ 
+        _controller.CurrentTurn.Next(
+            () => new ScaleAsync(cell.transform, Vector3.one, speed: 16).Play(cell),
+            "scale cell to normal");
+
+        _controller.CurrentTurn.Next(() =>
+        {
+            var hero = _grid.Hero.GetCellComponent<Hero>();
+            cell.Accept(hero);
+        }, "start turn");
+
+        _waitForInput = false;
+        _controller.CurrentTurn.TurnFinished += () => _waitForInput = true;
+        _controller.CurrentTurn.StartTurn();
+
         // TODO wait for all animations to end
         // _controller.Move(hero.Cell, cell);
         // _controller.ReplaceWithNewCell(cell);

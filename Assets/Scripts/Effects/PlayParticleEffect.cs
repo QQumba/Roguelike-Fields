@@ -1,5 +1,6 @@
-﻿using Animations.AsyncAnimations;
+﻿using System.Collections;
 using Events;
+using GameGrid;
 using UnityEngine;
 
 namespace Effects
@@ -11,8 +12,12 @@ namespace Effects
         {
             var particles = GetComponent<ParticleSystem>();
             particles.Play();
-            var waitMs = (int)(particles.main.duration * 1000);
-            AsyncAnimator.Instance.Wait(waitMs);
+            GridController.Instance.CurrentTurn.Next(() => Wait(particles.main.duration), "wait for particles"); 
+        }
+
+        private IEnumerator Wait(float seconds)
+        {
+            yield return new WaitForSeconds(seconds);
         }
     }
 }

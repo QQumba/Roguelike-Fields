@@ -100,5 +100,22 @@ namespace Game
 
             return cell;
         }
+        
+        public Cell SpawnCellWithContent(CellContent cellComponent, Vector3 initialScale)
+        {
+            var cell = SpawnEmptyCell(initialScale);
+            var content = Instantiate(cellComponent, cell.transform);
+
+            var cellRenderer = cell.GetComponent<SpriteRenderer>();
+            cellRenderer.sortingOrder = content.GetSortingOrder() - 1;
+
+            var components = content.GetCellComponents();
+            foreach (var component in components)
+            {
+                cell.AddCellComponent(component);
+            }
+
+            return cell;
+        }
     }
 }

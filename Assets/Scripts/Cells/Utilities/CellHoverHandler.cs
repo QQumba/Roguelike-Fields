@@ -80,7 +80,7 @@ namespace Cells.Utilities
                 hoverSpeed);
 
             _activeAnimation = scaleAnimation;
-            await scaleAnimation.Play();
+            await scaleAnimation.PlayAsync();
         }
     }
 }
