@@ -1,4 +1,4 @@
-﻿using Cells.Components;
+﻿using Cells;
 using Events;
 using Game;
 using GameGrid;
@@ -9,7 +9,7 @@ namespace Effects
     public class ReplaceCellEffect : MonoBehaviour
     {
         [SerializeField]
-        private CellComponent cellPrefab;
+        private CellContent cellPrefab;
 
         private GridController _gridController;
         private CellSpawner _cellSpawner;
@@ -22,7 +22,7 @@ namespace Effects
 
         public void ReplaceCell(CellEventArgs e)
         {
-            var newCell = _cellSpawner.SpawnCellWithComponent(cellPrefab, Vector3.one);
+            var newCell = _cellSpawner.SpawnCellWithContent(cellPrefab, Vector3.one);
             newCell.gameObject.SetActive(false);
             _gridController.Replace(e.Cell, newCell);
         }

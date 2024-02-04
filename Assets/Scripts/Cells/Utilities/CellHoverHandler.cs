@@ -1,5 +1,4 @@
-﻿using System;
-using Animations.AsyncAnimations;
+﻿using Animations.AsyncAnimations;
 using UnityEngine;
 
 namespace Cells.Utilities
@@ -26,14 +25,6 @@ namespace Cells.Utilities
         private void Awake()
         {
             _slot = GetComponent<CellSlot>();
-            // _slot.Cleared += () =>
-            // {
-            //     if (_coroutine != null)
-            //     {
-            //         StopCoroutine(_coroutine);
-            //     }
-            // };
-            
             _slot.Cleared += () =>
             {
                 _activeAnimation?.RequestStop();
@@ -48,24 +39,12 @@ namespace Cells.Utilities
         // TODO stop animation when cell is clicked to avoid any errors
         private void OnMouseEnter()
         {
-            // if (_slot.Cell == null)
-            // {
-            //     return;
-            // }
-            //
-            // if (_coroutine != null)
-            // {
-            //     StopCoroutine(_coroutine);
-            // }
-            //
-            // _coroutine = StartCoroutine(ChangeScale(hoverScale));
-
-            if (_animator.IsAnimating)
+            if (_slot.Cell == null)
             {
                 return;
             }
             
-            if (_slot.Cell == null)
+            if (_slot.Cell.IsAnimated)
             {
                 return;
             }
@@ -76,20 +55,12 @@ namespace Cells.Utilities
 
         private void OnMouseExit()
         {
-            // if (_slot.Cell == null)
-            // {
-            //     return;
-            // }
-            //
-            // StopCoroutine(_coroutine);
-            // _coroutine = StartCoroutine(ChangeScale(defaultScale));
-            
-            if (_animator.IsAnimating)
+            if (_slot.Cell == null)
             {
                 return;
             }
             
-            if (_slot.Cell == null)
+            if (_slot.Cell.IsAnimated)
             {
                 return;
             }
@@ -97,15 +68,6 @@ namespace Cells.Utilities
             _activeAnimation?.RequestStop();
             ChangeScale(defaultScale);
         }
-
-        // private IEnumerator ChangeScale(float targetScale)
-        // {
-        //     var targetTransform = _slot.Cell.transform;
-        //     return ScaleAnimation.Play(targetTransform,
-        //         targetTransform.localScale,
-        //         Vector3.one * targetScale,
-        //         hoverSpeed);
-        // }
 
         private async void ChangeScale(float targetScale)
         {
@@ -118,7 +80,7 @@ namespace Cells.Utilities
                 hoverSpeed);
 
             _activeAnimation = scaleAnimation;
-            await scaleAnimation.Play();
+            await scaleAnimation.PlayAsync();
         }
     }
 }

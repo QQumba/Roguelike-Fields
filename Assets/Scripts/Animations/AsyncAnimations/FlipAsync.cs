@@ -1,5 +1,6 @@
-﻿using System.Threading;
+﻿using System.Collections;
 using System.Threading.Tasks;
+using Cells;
 using UnityEngine;
 
 namespace Animations.AsyncAnimations
@@ -23,7 +24,7 @@ namespace Animations.AsyncAnimations
             _speed = speed;
         }
 
-        public async Task Play()
+        public async Task PlayAsync()
         {
             for (float i = 0; i < 1; i += Time.deltaTime * _speed)
             {
@@ -32,6 +33,24 @@ namespace Animations.AsyncAnimations
             }
 
             _target.eulerAngles = new Vector3(0, _targetAngle, 0);
+        }
+
+        public IEnumerator Play()
+        {
+            for (float i = 0; i < 1; i += Time.deltaTime * _speed)
+            {
+                _target.eulerAngles = new Vector3(0, Mathf.Lerp(_initialAngle, _targetAngle, i), 0);
+                yield return null;
+            }
+
+            _target.eulerAngles = new Vector3(0, _targetAngle, 0);
+        }
+        
+        public IEnumerator Play(Cell cell)
+        {
+            cell.IsAnimated = true;
+            yield return Play();
+            cell.IsAnimated = false;
         }
 
         public void RequestStop()

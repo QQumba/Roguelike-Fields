@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Threading.Tasks;
+using Cells;
 using UnityEngine;
 
 namespace Animations.AsyncAnimations
@@ -24,7 +26,7 @@ namespace Animations.AsyncAnimations
             _speed = speed;
         }
 
-        public async Task Play()
+        public async Task PlayAsync()
         {
             for (float i = 0; i < 1; i += Time.deltaTime * _speed)
             {
@@ -38,6 +40,29 @@ namespace Animations.AsyncAnimations
             }
 
             _target.localScale = _targetScale;
+        }
+
+        public IEnumerator Play()
+        {
+            for (float i = 0; i < 1; i += Time.deltaTime * _speed)
+            {
+                if (_stopRequested)
+                {
+                    yield break;
+                }
+                
+                _target.localScale = Vector3.Lerp(_initialScale, _targetScale, i);
+                yield return null;
+            }
+
+            _target.localScale = _targetScale;
+        }
+        
+        public IEnumerator Play(Cell cell)
+        {
+            cell.IsAnimated = true;
+            yield return Play();
+            cell.IsAnimated = false;
         }
 
         public void RequestStop()
