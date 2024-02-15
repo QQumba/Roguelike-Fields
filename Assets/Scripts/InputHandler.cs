@@ -49,7 +49,7 @@ public class InputHandler : MonoBehaviour
         {
             var hero = _grid.Hero.GetCellComponent<Hero>();
             cell.Accept(hero);
-        }, "start turn");
+        });
 
         _waitForInput = false;
         _controller.CurrentTurn.TurnFinished += () => _waitForInput = true;

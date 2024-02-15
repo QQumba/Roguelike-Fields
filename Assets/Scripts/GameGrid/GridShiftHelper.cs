@@ -22,7 +22,7 @@ namespace GameGrid
         public static Direction GetShiftDirection(this Grid grid, Cell a, Cell b)
         {
             var turnDirection = grid.GetTurnDirection(a, b);
-            var shiftDirection = (Direction)(((int)turnDirection + 1) % 4);
+            var shiftDirection = turnDirection.NextDirectionClockwise();
             return shiftDirection;
         }
 

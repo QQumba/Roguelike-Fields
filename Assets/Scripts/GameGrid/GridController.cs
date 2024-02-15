@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Animations.AsyncAnimations;
+﻿using Animations.AsyncAnimations;
 using Cells;
 using Game;
 using TurnData;
@@ -71,18 +69,21 @@ namespace GameGrid
 
         private void ShiftCells(Vector2Int index, CellShiftDetails shiftDetails)
         {
+            var moveAction = new TurnAction();
+            var setCellAction = new TurnAction();
             foreach (var c in shiftDetails.Cells)
             {
                 var shiftToPosition = _grid.GetCellPosition(index);
-                CurrentTurn.Next(
-                    () => new MoveAsync(c.transform, shiftToPosition).Play(c),
-                    "shift cell");
-
                 var capturedIndex = index;
-                CurrentTurn.Next(() => _grid.SetCell(c, capturedIndex), "set shifted cell");
+
+                moveAction.Add(() => new MoveAsync(c.transform, shiftToPosition).Play(c));
+                setCellAction.Add(() => _grid.SetCell(c, capturedIndex));
 
                 index += shiftDetails.ShiftFrom;
             }
+
+            CurrentTurn.Next(moveAction);
+            CurrentTurn.Next(setCellAction);
         }
 
         private void SpawnCell(Vector2Int index)

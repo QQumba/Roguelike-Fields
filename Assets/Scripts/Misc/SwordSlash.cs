@@ -22,7 +22,7 @@ namespace Misc
             _trail = slash.GetComponent<TrailRenderer>();
             _gridController = GridController.Instance;
             
-            // ensure that slash trail
+            // ensure that slash trail not active
             slash.gameObject.SetActive(false);
         }
         
@@ -35,26 +35,22 @@ namespace Misc
             slash.position = a;
             slash.gameObject.SetActive(true);
 
-            _gridController.CurrentTurn.Next(
-                () => new MoveAsync(slash, b, a, speed).Play(),
-                "sword slash");
-            
-            _gridController.CurrentTurn.Next(
-                () =>
-                {
-                    _trail.Clear();
-                    slash.gameObject.SetActive(false);
-                },
-                "disable trail");
+            _gridController.CurrentTurn.Next(() => new MoveAsync(slash, b, a, speed).Play());
+
+            _gridController.CurrentTurn.Next(() =>
+            {
+                _trail.Clear();
+                slash.gameObject.SetActive(false);
+            });
         }
         
-        private static (Vector2 a, Vector2 b) GetOppositePointsOnCircle(Vector2 position, float radius)
+        private static (Vector2 a, Vector2 b) GetOppositePointsOnCircle(Vector2 circleCenter, float radius)
         {
             var a = Random.insideUnitCircle.normalized * radius;
             var b = -a;
 
-            a += position;
-            b += position;
+            a += circleCenter;
+            b += circleCenter;
 
             return (a, b);
         }
