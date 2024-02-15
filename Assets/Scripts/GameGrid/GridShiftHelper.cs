@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cells;
 using UnityEngine;
 
@@ -25,22 +26,43 @@ namespace GameGrid
             return shiftDirection;
         }
 
-        public static List<Cell> GetCellsToShift(this Grid grid, Cell cell, Direction turnDirection)
+        public static CellShiftDetails GetShiftDetails(this Grid grid, Cell cell, Direction turnDirection)
         {
-            var shiftFromDirection = (Direction)(((int)turnDirection + 2) % 4);
-            var shiftFromIndex = DirectionToIndex(shiftFromDirection);
-
             var cellIndex = grid.IndexOf(cell);
+            return grid.GetShiftDetails(cellIndex, turnDirection);
+        }
 
-            var cells = new List<Cell>();
-            var index = cellIndex + shiftFromIndex;
-            while (grid.IsIndexInBounds(index))
+        public static CellShiftDetails GetShiftDetails(this Grid grid, Vector2Int cellIndex, Direction turnDirection)
+        {
+            var cellShiftDetails = new List<CellShiftDetails>();
+            
+            for (int i = 1; i < 4; i++)
             {
-                cells.Add(grid.GetCell(index));
-                index += shiftFromIndex;
+                var currentShiftFromDirection = turnDirection.NextDirectionClockwise(i);
+                cellShiftDetails.Add(grid.GetCellsFromDirection(cellIndex, currentShiftFromDirection));
             }
 
-            return cells;
+            var maxCellsCount = cellShiftDetails.Select(x => x.Cells.Count).Max();
+            return cellShiftDetails.First(x => x.Cells.Count == maxCellsCount);
+        }
+
+        private static CellShiftDetails GetCellsFromDirection(this Grid grid, Vector2Int startIndex, Direction direction)
+        {
+            var shiftFromIndex = ToIndex(direction);
+            var cellShiftDetails = new CellShiftDetails
+            {
+                ShiftFrom = direction.ToIndex()
+            };
+            
+            var index = startIndex + shiftFromIndex;
+            while (grid.IsIndexInBounds(index))
+            {
+                cellShiftDetails.Cells.Add(grid.GetCell(index));
+                cellShiftDetails.LastCellIndex = index; 
+                index += shiftFromIndex;
+            }
+            
+            return cellShiftDetails;
         }
 
         public static Direction VectorToDirection(Vector2Int vector)
@@ -67,8 +89,13 @@ namespace GameGrid
 
             throw new ArgumentOutOfRangeException();
         }
-        
-        public static Vector2Int DirectionToIndex(Direction direction)
+
+        public static Direction NextDirectionClockwise(this Direction direction, int offset = 1)
+        {
+            return (Direction)(((int)direction + offset) % 4);
+        }
+
+        public static Vector2Int ToIndex(this Direction direction)
         {
             return direction switch
             {

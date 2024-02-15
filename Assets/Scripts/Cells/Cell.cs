@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cells.Components;
+using GameGrid;
 using UnityEngine;
 
 namespace Cells
@@ -14,7 +16,7 @@ namespace Cells
         /// Currently used to control hover animation.
         /// </summary>
         public bool IsAnimated { get; set; }
-        
+
         /// <summary>
         /// Finds a cell component of type T.
         /// </summary>
@@ -53,6 +55,17 @@ namespace Cells
         {
             var visitableComponent = _components.Single(x => x is IVisitable) as IVisitable;
             visitableComponent!.Accept(visitor);
+        }
+
+        public void OnTurnEnded()
+        {
+            Highlight(false);
+        }
+
+        public void Highlight(bool yes)
+        {
+            var spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.color = yes ? Color.cyan : Color.white;
         }
     }
 }

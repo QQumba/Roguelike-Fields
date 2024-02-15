@@ -39,19 +39,10 @@ public class InputHandler : MonoBehaviour
             return;
         }
 
-        var hero = _grid.Hero;
-        var turnDirection = _grid.GetTurnDirection(hero, cell);
+        var heroCell = _grid.Hero;
+        var turnDirection = _grid.GetTurnDirection(heroCell, cell);
         turnDirectionText.text = $"turn: {turnDirection}";
-        var shiftDirection = _grid.GetShiftDirection(hero, cell);
-        shiftDirectionText.text = $"shift: {shiftDirection}";
 
-        var cellsToShift = _grid.GetCellsToShift(cell, turnDirection);
-        foreach (var c in cellsToShift)
-        {
-            var cPosition = _grid.GetCellPosition(_grid.IndexOf(c));
-            Debug.Log(cPosition);
-        }
-        
         PulseCell(cell);
 
         _controller.CurrentTurn.Next(() =>
