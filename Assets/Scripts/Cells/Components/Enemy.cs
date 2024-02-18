@@ -13,6 +13,6 @@ namespace Cells.Components
             visitor.Visit(this);
         }
 
-        public override string DefaultTag => CellTags.Enemy;
+        public override string CellTag => CellTags.Enemy;
     }
 }

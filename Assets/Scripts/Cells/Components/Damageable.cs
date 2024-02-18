@@ -23,7 +23,7 @@ namespace Cells.Components
 
         public event Action<CellEventArgs> Died;
         
-        public override string DefaultTag => CellTags.Damageable;
+        public override string CellTag => CellTags.Damageable;
 
         protected override void Initialize()
         {

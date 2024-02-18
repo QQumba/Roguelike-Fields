@@ -6,22 +6,22 @@ using UnityEngine.Events;
 
 namespace Cells.Components
 {
-    public class Pickable : CellComponent, IVisitable
+    public class Activatable : CellComponent, IVisitable
     {
-        [SerializeField] private UnityEvent<CellEventArgs> pickedUpEvent;
+        [SerializeField] private UnityEvent<CellEventArgs> activatedEvent;
 
-        public event Action<CellEventArgs> PickedUp;
+        public event Action<CellEventArgs> Activated;
 
         public override string CellTag => CellTags.Pickable;
 
         protected override void Initialize()
         {
-            PickedUp += pickedUpEvent.Invoke;
+            Activated += activatedEvent.Invoke;
         }
 
-        public void PickUp()
+        public void Activate()
         {
-            PickedUp?.Invoke(new CellEventArgs(Cell));
+            Activated?.Invoke(new CellEventArgs(Cell));
         }
 
         public void Accept(IVisitor visitor)

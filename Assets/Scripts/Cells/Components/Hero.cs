@@ -1,4 +1,5 @@
-﻿using Events;
+﻿using Cells.Weapons;
+using Events;
 using GameGrid;
 using Tags;
 using UnityEngine;
@@ -10,21 +11,46 @@ namespace Cells.Components
     {
         [SerializeField]
         private UnityEvent<CellEventArgs> enemyAttackedEvent;
-        
-        public GridController GridController { get; set; }
 
-        public override string DefaultTag => CellTags.Hero;
+        private GridController _controller;
+
+        public Weapon Weapon { get; set; }
+
+        public Damageable Damageable => Cell.GetCellComponent<Damageable>();
+
+        protected override void Initialize()
+        {
+            _controller = GridController.Instance;
+        }
+
+        public override string CellTag => CellTags.Hero;
 
         public void Visit(Enemy enemy)
         {
-            enemyAttackedEvent.Invoke(new CellEventArgs(enemy.Cell));
-            enemy.Damageable.DealDamage(999);
+            if (Weapon is null)
+            {
+                var enemyHealth = enemy.Health.Value;
+                Damageable.DealDamage(enemyHealth);
+                _controller.Move(Cell, enemy.Cell);
+                return;
+            }
+
+            Weapon.Attack(enemy);
+            
+            // enemyAttackedEvent.Invoke(new CellEventArgs(enemy.Cell));
+            // enemy.Damageable.DealDamage(999);
         }
 
         public void Visit(Pickable pickable)
         {
             pickable.PickUp();
-            GridController.Move(Cell, pickable.Cell);
+            
+            _controller.Move(Cell, pickable.Cell);
+        }
+
+        public void Visit(Activatable activatable)
+        {
+            activatable.Activate();
         }
     }
 }

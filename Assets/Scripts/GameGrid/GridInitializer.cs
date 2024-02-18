@@ -14,7 +14,6 @@ namespace GameGrid
     {
         private Grid _grid;
         private CellSpawner _spawner;
-        private GridController _gridController;
         
         public static GridInitializer Instance { get; private set; }
 
@@ -28,11 +27,10 @@ namespace GameGrid
 
         private void Start()
         {
-            _gridController = GridController.Instance;
-            Initialize();
+            InitializeGrid();
         }
 
-        private void Initialize()
+        private void InitializeGrid()
         {
             var heroPositionX = Random.Range(0, _grid.Width);
             var heroPositionY = Random.Range(0, _grid.Height);
@@ -44,7 +42,7 @@ namespace GameGrid
                     Cell cell;
                     if (x == heroPositionX && y == heroPositionY)
                     {
-                        cell = _spawner.SpawnHero(_gridController);
+                        cell = _spawner.SpawnHero();
                     }
                     else
                     {

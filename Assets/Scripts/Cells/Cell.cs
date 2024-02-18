@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Cells.Components;
-using GameGrid;
 using UnityEngine;
 
 namespace Cells
@@ -36,7 +34,12 @@ namespace Cells
         // EXPERIMENTAL!!
         public bool HasCellTag(string cellTag)
         {
-            return _components.Any(x => x.DefaultTag == cellTag);
+            return _components.Any(x => x.CellTag == cellTag);
+        }
+
+        public IEnumerable<string> GetCellTags()
+        {
+            return _components.Select(x => x.CellTag);
         }
     
         public T AddCellComponent<T>() where T : CellComponent

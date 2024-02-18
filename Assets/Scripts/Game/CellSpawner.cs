@@ -1,8 +1,14 @@
-﻿using Cells;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Cells;
 using Cells.Components;
 using GameGrid;
+using Tags;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Grid = GameGrid.Grid;
+using Random = UnityEngine.Random;
 
 namespace Game
 {
@@ -15,18 +21,17 @@ namespace Game
         private Cell cellPrefab;
 
         [SerializeField]
-        private Hero heroPrefab;
-
-        [SerializeField]
         private CellContent heroContent;
-
-        [SerializeField]
-        private Enemy enemyPrefab;
 
         [SerializeField]
         private CellContent[] prefabs;
 
         public static CellSpawner Instance;
+
+        private Grid _grid;
+
+        // ReSharper disable once Unity.NoNullCoalescing
+        private Grid Grid => _grid ?? Grid.Instance;
 
         private void Awake()
         {
@@ -42,7 +47,7 @@ namespace Game
             return cell;
         }
 
-        public Cell SpawnHero(GridController controller)
+        public Cell SpawnHero()
         {
             var cell = SpawnEmptyCell();
             var hero = Instantiate(heroContent, cell.transform);
@@ -53,10 +58,6 @@ namespace Game
 
             foreach (var component in hero.GetCellComponents())
             {
-                if (component is Hero heroComponent)
-                {
-                    heroComponent.GridController = controller;
-                }
                 cell.AddCellComponent(component);
             }
             
@@ -83,7 +84,53 @@ namespace Game
             return cell;
         }
 
-        public Cell SpawnCellWithComponent(CellComponent cellComponent, Vector3 initialScale)
+        private void ReadSpawnableCellsTags()
+        {
+            prefabs
+                .SelectMany(x => x.GetCellComponents().Select(c => c.CellTag))
+                .Distinct()
+                .ToList()
+                .ForEach(Debug.Log);
+        }
+
+        private string GetLeastPresentTag()
+        {
+            var tagNumber = new Dictionary<string, int>();
+            foreach (var cell in Grid.Cells)
+            {
+                if (cell is null)
+                {
+                    continue;
+                }
+                
+                var tags = cell.GetCellTags();
+
+                foreach (var t in tags)
+                {
+                    if (tagNumber.ContainsKey(t))
+                    {
+                        tagNumber[t] += 1;
+                    }
+                    else
+                    {
+                        tagNumber.Add(t, 1);
+                    }
+                }
+            }
+
+            if (tagNumber.Count == 0)
+            {
+                return null;
+            }
+            
+            var min = tagNumber
+                .Where(x => x.Key != CellTags.Hero)
+                .Min(x => x.Value);
+            
+            return tagNumber.First(x => x.Value == min).Key;
+        }
+
+        private Cell SpawnCellWithComponent(CellComponent cellComponent, Vector3 initialScale)
         {
             var cell = SpawnEmptyCell(initialScale);
             var instance = Instantiate(cellComponent, cell.transform);

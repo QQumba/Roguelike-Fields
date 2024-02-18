@@ -12,8 +12,6 @@ namespace TurnData
 
         public event Action Finished;
 
-        private event Action InnerActionFinished;
-
         public TurnAction(Func<IEnumerator> action)
         {
             _innerActions.Add(action);
@@ -30,29 +28,19 @@ namespace TurnData
 
         public void Start(Func<IEnumerator, Coroutine> coroutineRunner)
         {
-            _coroutinesInProgress = _innerActions.Count;
-            InnerActionFinished += () =>
+            if (_innerActions.Count == 0)
             {
-                _coroutinesInProgress -= 1;
-                if (_coroutinesInProgress == 0)
-                {
-                    Finished?.Invoke();
-                }
-            };
-
+                Finished?.Invoke();
+                return;
+            }
+        
+            _coroutinesInProgress = _innerActions.Count;
             foreach (var action in _innerActions)
             {
                 coroutineRunner(Invoke(action()));
             }
         }
 
-        // what if instead of combining with another TurnAction Combine can just add another action to _innerActions list directly
-        public TurnAction Combine(TurnAction action)
-        {
-            _innerActions.AddRange(action._innerActions);
-            return this;
-        }
-        
         public void Add(Func<IEnumerator> action)
         {
             _innerActions.Add(action);
@@ -66,7 +54,12 @@ namespace TurnData
         private IEnumerator Invoke(IEnumerator innerEnumerator)
         {
             yield return innerEnumerator;
-            InnerActionFinished?.Invoke();
+
+            _coroutinesInProgress -= 1;
+            if (_coroutinesInProgress == 0)
+            {
+                Finished?.Invoke();
+            }
         }
 
         private IEnumerator WrapAction(Action action)

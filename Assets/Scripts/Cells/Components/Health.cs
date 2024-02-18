@@ -20,7 +20,7 @@ namespace Cells.Components
 
         public event Action<HealthChangedEventArgs> HealthChanged;
         
-        public override string DefaultTag => CellTags.HasHealth;
+        public override string CellTag => CellTags.HasHealth;
 
         protected override void Initialize()
         {

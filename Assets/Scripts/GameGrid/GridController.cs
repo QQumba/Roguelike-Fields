@@ -17,7 +17,6 @@ namespace GameGrid
     {
         private Grid _grid;
         private CellSpawner _spawner;
-        private AsyncAnimator _animator;
 
         [SerializeField]
         private UnityEvent turnFinishedEvent;
@@ -36,7 +35,6 @@ namespace GameGrid
 
         private void Start()
         {
-            _animator = AsyncAnimator.Instance;
             CreateNewTurn();
         }
         
@@ -89,11 +87,9 @@ namespace GameGrid
         private void SpawnCell(Vector2Int index)
         {
             var newCell = _spawner.SpawnCell(Vector3.zero);
-            CurrentTurn.Next(() => _grid.SetCell(newCell, index), "set cells");
 
-            CurrentTurn.Next(
-                () => new ScaleAsync(newCell.transform, Vector3.one).Play(newCell),
-                "scale new cell up");
+            CurrentTurn.Next(() => _grid.SetCell(newCell, index));
+            CurrentTurn.Next(() => new ScaleAsync(newCell.transform, Vector3.one).Play(newCell));
         }
 
         public void Replace(Cell a, Cell b)

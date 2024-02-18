@@ -6,8 +6,9 @@ namespace Cells.Components
     {
         public Cell Cell { get; set; }
 
-        public abstract string DefaultTag { get; }
+        public abstract string CellTag { get; }
 
+        // TODO just allow to call awake in each component
         private void Awake()
         {
             Initialize();

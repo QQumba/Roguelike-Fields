@@ -7,6 +7,7 @@ namespace Cells
         void Visit(Enemy enemy);
 
         void Visit(Pickable pickable);
+        void Visit(Activatable activatable);
     }
 
     public interface IVisitable
