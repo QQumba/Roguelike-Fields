@@ -9,6 +9,6 @@ namespace Events
             Cell = cell;
         }
 
-        public Cell Cell { get; set; }
+        public Cell Cell { get; }
     }
 }

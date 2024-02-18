@@ -1,15 +1,17 @@
-﻿using Animations.AsyncAnimations;
+﻿using System;
+using Animations.AsyncAnimations;
 using Cells.Components;
 using GameGrid;
 using TurnData;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Cells.Weapons
 {
     public class Sword : Weapon
     {
         [SerializeField]
-        private Transform slash;
+        private Transform slashPrefab;
 
         [SerializeField]
         private float speed = 4;
@@ -17,45 +19,54 @@ namespace Cells.Weapons
         [SerializeField]
         private int damage = 7;
 
-        private TrailRenderer _trail;
         private GridController _gridController;
 
         private TurnContext CurrentTurn => _gridController.CurrentTurn;
-        
+
+        public override event Action WeaponBroken;
+
         private void Start()
         {
-            // ensure that slash object world position is independent
-            slash.SetParent(null);
-            
-            _trail = slash.GetComponent<TrailRenderer>();
             _gridController = GridController.Instance;
-            
-            // ensure that slash trail not active
-            slash.gameObject.SetActive(false);
-
-            Damage = damage;
         }
-        
+
         public override void Attack(Enemy enemy)
         {
             var position = enemy.Cell.transform.position;
-
             var (a, b) = GetOppositePointsOnCircle(position, 0.3f);
 
-            slash.position = a;
-            slash.gameObject.SetActive(true);
+            var slash = Instantiate(slashPrefab, a, Quaternion.identity);
 
             CurrentTurn.Next(() => new MoveAsync(slash, b, a, speed).Play());
-
+            CurrentTurn.Next(() => Destroy(slash.gameObject));
             CurrentTurn.Next(() =>
             {
-                _trail.Clear();
-                slash.gameObject.SetActive(false);
+                var damageDealt = enemy.Damageable.DealDamage(Damage.Value);
+                Damage.Value -= damageDealt;
+                if (Damage.Value == 0)
+                {
+                    WeaponBroken?.Invoke();
+                }
             });
-            
-            CurrentTurn.Next(() => enemy.Damageable.DealDamage(Damage));
         }
-        
+
+        public override void BindDamageValueProvider(ValueProvider valueProvider)
+        {
+            valueProvider.Value = damage;
+            Damage = valueProvider;
+        }
+
+        public override bool TryReinforce(Weapon weapon)
+        {
+            if (weapon is Sword sword)
+            {
+                Damage.Value += sword.damage / 2;
+                return true;
+            }
+
+            return false;
+        }
+
         private static (Vector2 a, Vector2 b) GetOppositePointsOnCircle(Vector2 circleCenter, float radius)
         {
             var a = Random.insideUnitCircle.normalized * radius;

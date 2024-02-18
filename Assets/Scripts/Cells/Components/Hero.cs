@@ -12,19 +12,49 @@ namespace Cells.Components
         [SerializeField]
         private UnityEvent<CellEventArgs> enemyAttackedEvent;
 
+        [SerializeField]
+        private ValueProvider weaponDamageValueProvider;
+        
         private GridController _controller;
 
         public Weapon Weapon { get; set; }
 
         public Damageable Damageable => Cell.GetCellComponent<Damageable>();
 
-        protected override void Initialize()
+        protected void Awake()
         {
             _controller = GridController.Instance;
         }
 
         public override string CellTag => CellTags.Hero;
 
+        public void EquipWeapon(Weapon weapon)
+        {
+            if (Weapon is null)
+            {
+                // TODO replace this with instantiate from prefab
+                weapon.transform.SetParent(transform);
+                Weapon = weapon;
+                
+                weapon.BindDamageValueProvider(weaponDamageValueProvider);
+                weapon.WeaponBroken += () =>
+                {
+                    weaponDamageValueProvider.Dispose();
+                    Weapon = null;
+                };
+                return;
+            }
+
+            if (Weapon.TryReinforce(weapon))
+            {
+                return;
+            }
+            
+            Destroy(Weapon.gameObject);
+            weapon.transform.SetParent(transform);
+            Weapon = weapon;
+        }
+        
         public void Visit(Enemy enemy)
         {
             if (Weapon is null)
@@ -36,9 +66,6 @@ namespace Cells.Components
             }
 
             Weapon.Attack(enemy);
-            
-            // enemyAttackedEvent.Invoke(new CellEventArgs(enemy.Cell));
-            // enemy.Damageable.DealDamage(999);
         }
 
         public void Visit(Pickable pickable)

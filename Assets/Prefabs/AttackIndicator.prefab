@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2979500104524402346}
-  - component: {fileID: 144560209188618716}
+  - component: {fileID: 3296034982033591926}
+  - component: {fileID: 3530029382666684083}
   m_Layer: 0
   m_Name: AttackIndicator
   m_TagString: Untagged
@@ -34,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &144560209188618716
+--- !u!114 &3296034982033591926
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,11 +44,54 @@ MonoBehaviour:
   m_GameObject: {fileID: 930156609354368943}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f87dc000b974157a2c193fd6fa697cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 19cefcd425ce49b7963c5be47c0af755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 4614934474849979701}
-  showMax: 1
+  showMax: 0
+  valueUpdatedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3530029382666684083}
+        m_TargetAssemblyTypeName: Misc.SpritePresenter, Assembly-CSharp
+        m_MethodName: ShowSprite
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  valueHiddenEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3530029382666684083}
+        m_TargetAssemblyTypeName: Misc.SpritePresenter, Assembly-CSharp
+        m_MethodName: HideSprite
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3530029382666684083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930156609354368943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5d7bcb6569748ae9ea40b4720c326dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 2810928010207360825}
 --- !u!1 &4535638917677993544
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,7 +192,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6140297a42c981e4d8e00746152d6254, type: 2}
   m_sharedMaterial: {fileID: 1067062291418702618, guid: 6140297a42c981e4d8e00746152d6254, type: 2}
@@ -259,7 +303,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5117228792545741113}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

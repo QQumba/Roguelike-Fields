@@ -181,7 +181,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5778047794221227865}
-  - component: {fileID: 8896690551168667695}
+  - component: {fileID: 4603235494155380006}
   m_Layer: 0
   m_Name: HealthIndicator
   m_TagString: Untagged
@@ -206,7 +206,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8896690551168667695
+--- !u!114 &4603235494155380006
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8475322427259164252}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f87dc000b974157a2c193fd6fa697cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 19cefcd425ce49b7963c5be47c0af755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 4142601517968432326}

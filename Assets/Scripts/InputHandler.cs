@@ -51,6 +51,6 @@ public class InputHandler : MonoBehaviour
         var pulseScale = new Vector3(0.85f, 0.85f, 1f);
         
         _controller.CurrentTurn.Next(() => new ScaleAsync(cell.transform, pulseScale, speed: pulseSpeed).Play(cell));
-        _controller.CurrentTurn.Next(() => new ScaleAsync(cell.transform, Vector3.one, speed: pulseSpeed).Play(cell));
+        // _controller.CurrentTurn.Next(() => new ScaleAsync(cell.transform, Vector3.one, speed: pulseSpeed).Play(cell));
     }
 }

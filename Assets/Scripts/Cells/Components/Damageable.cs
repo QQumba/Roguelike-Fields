@@ -25,18 +25,21 @@ namespace Cells.Components
         
         public override string CellTag => CellTags.Damageable;
 
-        protected override void Initialize()
+        protected void Awake()
         {
             Died += diedEvent.Invoke;
         }
 
-        public void DealDamage(int damage)
+        public int DealDamage(int damage)
         {
+            var damageDealt = Mathf.Min(damage, Health.Value);
             Health.Value -= damage;
             if (Health.Value <= 0)
             {
                 Kill();    
             }
+
+            return damageDealt;
         }
 
         public void Heal(int healing)

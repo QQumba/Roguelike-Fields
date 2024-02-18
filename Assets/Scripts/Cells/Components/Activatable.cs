@@ -14,7 +14,7 @@ namespace Cells.Components
 
         public override string CellTag => CellTags.Pickable;
 
-        protected override void Initialize()
+        protected void Awake()
         {
             Activated += activatedEvent.Invoke;
         }

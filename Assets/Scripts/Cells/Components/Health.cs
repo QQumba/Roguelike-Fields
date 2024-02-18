@@ -22,7 +22,7 @@ namespace Cells.Components
         
         public override string CellTag => CellTags.HasHealth;
 
-        protected override void Initialize()
+        protected void Awake()
         {
             HealthChanged += healthChangedEvent.Invoke;
         }

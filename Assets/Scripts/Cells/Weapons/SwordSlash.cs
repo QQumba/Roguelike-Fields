@@ -4,13 +4,10 @@ using GameGrid;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Misc
+namespace Cells.Weapons
 {
     public class SwordSlash : MonoBehaviour
     {
-        [SerializeField]
-        private Transform slash;
-
         [SerializeField]
         private float speed = 4;
 
@@ -19,11 +16,8 @@ namespace Misc
         
         private void Start()
         {
-            _trail = slash.GetComponent<TrailRenderer>();
+            _trail = GetComponent<TrailRenderer>();
             _gridController = GridController.Instance;
-            
-            // ensure that slash trail not active
-            slash.gameObject.SetActive(false);
         }
         
         public void Slash(CellEventArgs args)
@@ -32,15 +26,13 @@ namespace Misc
 
             var (a, b) = GetOppositePointsOnCircle(position, 0.3f);
 
-            slash.position = a;
-            slash.gameObject.SetActive(true);
+            transform.position = a;
 
-            _gridController.CurrentTurn.Next(() => new MoveAsync(slash, b, a, speed).Play());
+            _gridController.CurrentTurn.Next(() => new MoveAsync(transform, b, a, speed).Play());
 
             _gridController.CurrentTurn.Next(() =>
             {
                 _trail.Clear();
-                slash.gameObject.SetActive(false);
             });
         }
         

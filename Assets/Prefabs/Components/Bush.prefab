@@ -271,9 +271,9 @@ MonoBehaviour:
   healthChangedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2933837356504841478}
-        m_TargetAssemblyTypeName: Misc.HealthPresenter, Assembly-CSharp
-        m_MethodName: UpdateHealth
+      - m_Target: {fileID: 7791661840741664783}
+        m_TargetAssemblyTypeName: Misc.ValuePresenter, Assembly-CSharp
+        m_MethodName: UpdateValue
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -286,9 +286,9 @@ MonoBehaviour:
   healthInitializedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2933837356504841478}
-        m_TargetAssemblyTypeName: Misc.HealthPresenter, Assembly-CSharp
-        m_MethodName: UpdateHealth
+      - m_Target: {fileID: 7791661840741664783}
+        m_TargetAssemblyTypeName: Misc.ValuePresenter, Assembly-CSharp
+        m_MethodName: UpdateValue
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -364,14 +364,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5778047794221227865, guid: 96f27ec2ef94a8e45871ffb11c29444d, type: 3}
   m_PrefabInstance: {fileID: 6034948172802321705}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2933837356504841478 stripped
+--- !u!114 &7791661840741664783 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8896690551168667695, guid: 96f27ec2ef94a8e45871ffb11c29444d, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4603235494155380006, guid: 96f27ec2ef94a8e45871ffb11c29444d, type: 3}
   m_PrefabInstance: {fileID: 6034948172802321705}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f87dc000b974157a2c193fd6fa697cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 19cefcd425ce49b7963c5be47c0af755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -2,16 +2,10 @@
 
 namespace Events
 {
-    public class HealthChangedEventArgs : CellEventArgs
+    public class HealthChangedEventArgs : ValueChangedEventArgs
     {
         public HealthChangedEventArgs(Cell cell) : base(cell)
         {
         }
-
-        public int CurrentValue { get; set; }
-
-        public int PreviousValue { get; set; }
-
-        public int MaxValue { get; set; }
     }
 }
