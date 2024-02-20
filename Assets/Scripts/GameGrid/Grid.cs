@@ -170,6 +170,12 @@ namespace GameGrid
             }
         }
 
+        public Vector2 GetCellPosition(Cell cell)
+        {
+            var index = IndexOf(cell);
+            return GetCellPosition(index.x, index.y);
+        }
+        
         public Vector2 GetCellPosition(Vector2Int index)
         {
             return GetCellPosition(index.x, index.y);

@@ -34,6 +34,9 @@ public class InputHandler : MonoBehaviour
 
         PulseCell(cell);
 
+        var turnDirection = _grid.GetTurnDirection(cell);
+
+        _controller.CurrentTurn.TurnDirection = turnDirection;
         _controller.CurrentTurn.Next(() =>
         {
             var hero = _grid.Hero.GetCellComponent<Hero>();

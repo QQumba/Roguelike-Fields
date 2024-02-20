@@ -30,29 +30,27 @@ namespace Cells.Components
 
         public void EquipWeapon(Weapon weapon)
         {
-            if (Weapon is null)
+            if (Weapon is not null)
             {
-                // TODO replace this with instantiate from prefab
-                weapon.transform.SetParent(transform);
-                Weapon = weapon;
-                
-                weapon.BindDamageValueProvider(weaponDamageValueProvider);
-                weapon.WeaponBroken += () =>
+                if (Weapon.TryReinforce(weapon))
                 {
-                    weaponDamageValueProvider.Dispose();
-                    Weapon = null;
-                };
-                return;
+                    return;
+                }
+
+                Weapon.BreakWeapon();
             }
 
-            if (Weapon.TryReinforce(weapon))
-            {
-                return;
-            }
-            
-            Destroy(Weapon.gameObject);
+            // TODO replace this with instantiate from prefab
             weapon.transform.SetParent(transform);
             Weapon = weapon;
+
+            weapon.BindDamageValueProvider(weaponDamageValueProvider);
+            weapon.WeaponBroken += () =>
+            {
+                Destroy(Weapon.gameObject);
+                weaponDamageValueProvider.Dispose();
+                Weapon = null;
+            };
         }
         
         public void Visit(Enemy enemy)

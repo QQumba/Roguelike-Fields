@@ -4,6 +4,7 @@ using Game;
 using TurnData;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace GameGrid
 {
@@ -17,7 +18,7 @@ namespace GameGrid
     {
         private Grid _grid;
         private CellSpawner _spawner;
-
+        
         [SerializeField]
         private UnityEvent turnFinishedEvent;
         
@@ -25,6 +26,8 @@ namespace GameGrid
 
         public TurnContext CurrentTurn { get; private set; }
 
+        public int TurnCount { get; private set; }        
+        
         private void Awake()
         {
             Instance = this;
@@ -137,6 +140,8 @@ namespace GameGrid
                 {
                     cell.OnTurnEnded();
                 }
+                
+                TurnCount++;
             }
             
             var turnContext = new TurnContext(StartCoroutine);

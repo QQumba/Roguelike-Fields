@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cells.Components;
+using GameGrid;
+using TurnData;
 using UnityEngine;
 
 namespace Cells
@@ -8,12 +11,20 @@ namespace Cells
     public class Cell : MonoBehaviour
     {
         private readonly List<CellComponent> _components = new List<CellComponent>();
+        private int _age;
 
+        private GridController _controller;
+        
         /// <summary>
         /// Indicates whether cell is animated at the moment or not.
         /// Currently used to control hover animation.
         /// </summary>
         public bool IsAnimated { get; set; }
+
+        private void Start()
+        {
+            _controller = GridController.Instance;
+        }
 
         /// <summary>
         /// Finds a cell component of type T.
@@ -62,7 +73,13 @@ namespace Cells
 
         public void OnTurnEnded()
         {
-            Highlight(false);
+            if (_age > 0 || _controller.TurnCount == 0)
+            {
+                _components.ForEach(x => x.OnTurnEnded());
+                Highlight(false);
+            }
+            
+            _age++;
         }
 
         public void Highlight(bool yes)

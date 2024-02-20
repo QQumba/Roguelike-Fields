@@ -45,6 +45,18 @@ namespace Animations.AsyncAnimations
 
             _target.position = _targetPosition;
         }
+        
+        public IEnumerator Quadratic()
+        {
+            for (float i = 0; i < 1; i += Time.deltaTime * _speed)
+            {
+                var x = Mathf.Lerp(0, 1, i);
+                _target.position = Vector3.Lerp(_initialPosition, _targetPosition, x);
+                yield return null;
+            }
+
+            _target.position = _targetPosition;
+        }
 
         public IEnumerator Play(Cell cell)
         {

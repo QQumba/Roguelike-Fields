@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameGrid;
 using UnityEngine;
 
 namespace TurnData
 {
     public class TurnContext
     {
-        private readonly Queue<TurnAction> _actions;
+        private readonly Queue<ITurnAction> _actions;
         private readonly Func<IEnumerator, Coroutine> coroutineRunner;
 
         public event Action TurnFinished;
@@ -15,9 +16,11 @@ namespace TurnData
         public TurnContext(Func<IEnumerator, Coroutine> coroutineRunner)
         {
             this.coroutineRunner = coroutineRunner;
-            _actions = new Queue<TurnAction>();
+            _actions = new Queue<ITurnAction>();
         }
-        
+
+        public Direction TurnDirection { get; set; }
+
         public void StartTurn()
         {
             ExecuteNext();

@@ -215,10 +215,10 @@ MonoBehaviour:
   heroContent: {fileID: 6370732005336156800, guid: 332a5233e02f2b34bb1bf925ce98987c, type: 3}
   prefabs:
   - {fileID: 7803166862862941185, guid: 113af0ec1f8faaf418f25b0b908744f1, type: 3}
-  - {fileID: 469710071448576452, guid: fb8abc250b8aff84db4eb70cede2f7cc, type: 3}
-  - {fileID: 6253117982367767464, guid: d40c9881c09717d4e9219eeb012d59be, type: 3}
-  - {fileID: 5882218215079035460, guid: 91d633c4f19336a4ab3e29760cc10c24, type: 3}
   - {fileID: 1188173716024263638, guid: bc4561e8119398349b955814da3e2c52, type: 3}
+  - {fileID: 4161024300577302309, guid: 8f989b64123c3844eb9572ee901ac30e, type: 3}
+  - {fileID: 5882218215079035460, guid: 91d633c4f19336a4ab3e29760cc10c24, type: 3}
+  - {fileID: 6253117982367767464, guid: d40c9881c09717d4e9219eeb012d59be, type: 3}
 --- !u!114 &62198685
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,5 +15,7 @@ namespace Cells.Weapons
         public abstract void BindDamageValueProvider(ValueProvider valueProvider);
 
         public abstract bool TryReinforce(Weapon weapon);
+
+        public abstract void BreakWeapon();
     }
 }

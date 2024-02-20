@@ -67,6 +67,11 @@ namespace Cells.Weapons
             return false;
         }
 
+        public override void BreakWeapon()
+        {
+            WeaponBroken?.Invoke();
+        }
+
         private static (Vector2 a, Vector2 b) GetOppositePointsOnCircle(Vector2 circleCenter, float radius)
         {
             var a = Random.insideUnitCircle.normalized * radius;

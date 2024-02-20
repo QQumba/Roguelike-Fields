@@ -8,6 +8,14 @@ namespace GameGrid
 {
     public static class GridShiftExtensions
     {
+        public static Direction GetTurnDirection(this Grid grid, Cell cell)
+        {
+            var indexOfA = grid.IndexOf(grid.Hero);
+            var indexOfB = grid.IndexOf(cell);
+
+            return VectorToDirection(indexOfB - indexOfA);
+        }
+        
         /// <summary>
         /// Only work for vertical and horizontal movements
         /// </summary>

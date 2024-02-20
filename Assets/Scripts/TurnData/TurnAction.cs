@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TurnData
 {
-    public class TurnAction
+    public class TurnAction : ITurnAction
     {
         private readonly List<Func<IEnumerator>> _innerActions = new List<Func<IEnumerator>>();
         private int _coroutinesInProgress;
