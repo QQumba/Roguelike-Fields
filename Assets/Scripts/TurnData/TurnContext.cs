@@ -9,13 +9,19 @@ namespace TurnData
     public class TurnContext
     {
         private readonly Queue<ITurnAction> _actions;
-        private readonly Func<IEnumerator, Coroutine> coroutineRunner;
+        
+        private readonly Func<IEnumerator, Coroutine> _coroutineRunner;
+        private readonly Action _onTurnEnded;
 
+        private bool _onTurnEndedTriggered;
+        
         public event Action TurnFinished;
         
-        public TurnContext(Func<IEnumerator, Coroutine> coroutineRunner)
+        public TurnContext(Func<IEnumerator, Coroutine> coroutineRunner, Action onTurnEnded)
         {
-            this.coroutineRunner = coroutineRunner;
+            _coroutineRunner = coroutineRunner;
+            _onTurnEnded = onTurnEnded;
+            
             _actions = new Queue<ITurnAction>();
         }
 
@@ -30,39 +36,62 @@ namespace TurnData
         {
             if (_actions.Count == 0)
             {
-                TurnFinished?.Invoke();
-                return;
+                if (_onTurnEndedTriggered)
+                {
+                    TurnFinished?.Invoke();
+                    return;
+                }
+
+                Next(_onTurnEnded);
+                _onTurnEndedTriggered = true;
             }
 
             var action = _actions.Dequeue();
 
             action.Finished += ExecuteNext;
-            action.Start(coroutineRunner);
+
+            if (action.Message is not null)
+            {
+                var time = DateTime.Now;
+                Debug.Log($"{time:O}: {action.Message}");
+            }
+            
+            action.Start(_coroutineRunner);
         }
 
         public void Next(Action action)
         {
-            _actions.Enqueue(new TurnAction(action));
+            var a = new TurnAction(action);
+            Next(a);
         }
         
-        public void Next(Action action, string _)
+        public void Next(Action action, string message)
         {
-            _actions.Enqueue(new TurnAction(action));
+            var a = new TurnAction(action) { Message = message };
+            Next(a);
         }
         
         public void Next(Func<IEnumerator> action)
         {
-            _actions.Enqueue(new TurnAction(action));
+            var a = new TurnAction(action);
+            Next(a);
         }
         
-        public void Next(Func<IEnumerator> action, string _)
+        public void Next(Func<IEnumerator> action, string message)
         {
-            _actions.Enqueue(new TurnAction(action));
+            var a = new TurnAction(action) { Message = message };
+            Next(a);
         }
 
         public void Next(TurnAction action)
         {
+            action.CoroutineRunner = _coroutineRunner;
             _actions.Enqueue(action);
+        }
+
+        public void Log(string message)
+        {
+            _actions.Enqueue(new TurnAction(() => { }) { Message = message });
         }
     }
 }

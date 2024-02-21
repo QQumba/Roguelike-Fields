@@ -77,5 +77,10 @@ namespace Cells.Components
         {
             activatable.Activate();
         }
+
+        public void Visit(Swappable swappable)
+        {
+            _controller.SwapCells(Cell, swappable.Cell);
+        }
     }
 }

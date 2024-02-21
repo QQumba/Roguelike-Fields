@@ -219,6 +219,20 @@ MonoBehaviour:
   - {fileID: 4161024300577302309, guid: 8f989b64123c3844eb9572ee901ac30e, type: 3}
   - {fileID: 5882218215079035460, guid: 91d633c4f19336a4ab3e29760cc10c24, type: 3}
   - {fileID: 6253117982367767464, guid: d40c9881c09717d4e9219eeb012d59be, type: 3}
+  - {fileID: 4161024300577302309, guid: 518559df2f1e16948a6e51718383bbe7, type: 3}
+  spawnerPrefabs:
+  - prefab: {fileID: 7803166862862941185, guid: 113af0ec1f8faaf418f25b0b908744f1, type: 3}
+    spawn: 1
+  - prefab: {fileID: 1188173716024263638, guid: bc4561e8119398349b955814da3e2c52, type: 3}
+    spawn: 0
+  - prefab: {fileID: 4161024300577302309, guid: 8f989b64123c3844eb9572ee901ac30e, type: 3}
+    spawn: 0
+  - prefab: {fileID: 5882218215079035460, guid: 91d633c4f19336a4ab3e29760cc10c24, type: 3}
+    spawn: 0
+  - prefab: {fileID: 6253117982367767464, guid: d40c9881c09717d4e9219eeb012d59be, type: 3}
+    spawn: 0
+  - prefab: {fileID: 4161024300577302309, guid: 518559df2f1e16948a6e51718383bbe7, type: 3}
+    spawn: 1
 --- !u!114 &62198685
 MonoBehaviour:
   m_ObjectHideFlags: 0

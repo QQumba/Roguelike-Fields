@@ -10,6 +10,10 @@ namespace TurnData
         private readonly List<Func<IEnumerator>> _innerActions = new List<Func<IEnumerator>>();
         private int _coroutinesInProgress;
 
+        public string Message { get; set; }
+        
+        public Func<IEnumerator, Coroutine> CoroutineRunner { get; set; }
+        
         public event Action Finished;
 
         public TurnAction(Func<IEnumerator> action)
@@ -22,6 +26,11 @@ namespace TurnData
             _innerActions.Add(() => WrapAction(action));
         }
 
+        public TurnAction(List<Func<IEnumerator>> actions)
+        {
+            _innerActions.AddRange(actions);
+        }
+        
         public TurnAction()
         {
         }
@@ -34,13 +43,18 @@ namespace TurnData
                 return;
             }
         
-            _coroutinesInProgress = _innerActions.Count;
             foreach (var action in _innerActions)
             {
+                _coroutinesInProgress++;
                 coroutineRunner(Invoke(action()));
             }
         }
 
+        public void Next(Action action)
+        {
+            CoroutineRunner(Invoke(WrapAction(action)));
+        }
+        
         public void Add(Func<IEnumerator> action)
         {
             _innerActions.Add(action);

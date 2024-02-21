@@ -97,6 +97,30 @@ namespace GameGrid
             return IsCellsAdjacent(cell, Hero, false);
         }
 
+        public List<Cell> GetAdjacentCells(Cell cell)
+        {
+            var index = IndexOf(cell);
+            return GetAdjacentCells(index);
+        }
+        
+        public List<Cell> GetAdjacentCells(Vector2Int index)
+        {
+            var cells = new List<Cell>(4);
+            var direction = Direction.Up;
+
+            for (int i = 0; i < 4; i++)
+            {
+                direction = direction.NextDirectionClockwise();
+                var cell = GetCell(index + direction.ToIndex());
+                if (cell is not null)
+                {
+                    cells.Add(cell);
+                }
+            }
+
+            return cells;
+        }
+
         public Cell GetCell(Vector2Int index)
         {
             return IsIndexInBounds(index.x, index.y) ? _cells[index.x, index.y].Cell : null;

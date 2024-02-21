@@ -1,4 +1,5 @@
 ﻿using Events;
+using TurnData;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,9 +14,13 @@ namespace Cells.Components
 
         public abstract string CellTag { get; }
 
-        public void OnTurnEnded()
+        public virtual void OnTurnEnded(TurnAction turnAction)
         {
             turnEndedEvent.Invoke(new CellEventArgs(Cell));
+        }
+        
+        public virtual void OnTurnStarted()
+        {
         }
     }
 }

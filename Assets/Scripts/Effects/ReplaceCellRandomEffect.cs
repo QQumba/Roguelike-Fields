@@ -25,8 +25,8 @@ namespace Effects
             var randomIndex = Random.Range(0, cellPrefabs.Length);
             var cellPrefab = cellPrefabs[randomIndex];
             
-            var newCell = _cellSpawner.SpawnCellWithContent(cellPrefab, Vector3.one);
-            newCell.gameObject.SetActive(false);
+            var newCell = _cellSpawner.SpawnCellWithContent(cellPrefab, Vector3.zero);
+            // newCell.gameObject.SetActive(false);
             _gridController.Replace(e.Cell, newCell);
         }
     }

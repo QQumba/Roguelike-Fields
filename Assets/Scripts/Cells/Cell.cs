@@ -71,11 +71,11 @@ namespace Cells
             visitableComponent!.Accept(visitor);
         }
 
-        public void OnTurnEnded()
+        public void OnTurnEnded(TurnAction action)
         {
             if (_age > 0 || _controller.TurnCount == 0)
             {
-                _components.ForEach(x => x.OnTurnEnded());
+                _components.ForEach(x => x.OnTurnEnded(action));
                 Highlight(false);
             }
             
@@ -86,6 +86,11 @@ namespace Cells
         {
             var spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.color = yes ? Color.cyan : Color.white;
+        }
+
+        public void OnTurnStarted()
+        {
+            _components.ForEach(x => x.OnTurnStarted());
         }
     }
 }

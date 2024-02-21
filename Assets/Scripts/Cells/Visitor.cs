@@ -8,6 +8,7 @@ namespace Cells
 
         void Visit(Pickable pickable);
         void Visit(Activatable activatable);
+        void Visit(Swappable swappable);
     }
 
     public interface IVisitable

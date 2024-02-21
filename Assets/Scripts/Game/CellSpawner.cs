@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Cells;
 using Cells.Components;
@@ -25,6 +24,9 @@ namespace Game
 
         [SerializeField]
         private CellContent[] prefabs;
+
+        [SerializeField]
+        private CellSpawnerPrefab[] spawnerPrefabs;
 
         public static CellSpawner Instance;
 
@@ -68,8 +70,9 @@ namespace Game
         {
             var cell = SpawnEmptyCell(initialScale);
 
-            var i = Random.Range(0, prefabs.Length);
-            var prefabToSpawn = prefabs[i];
+            var prefabsToSpawn = spawnerPrefabs.Where(x => x.Spawn).ToArray();
+            var i = Random.Range(0, prefabsToSpawn.Length);
+            var prefabToSpawn = prefabsToSpawn[i].Prefab;
             var content = Instantiate(prefabToSpawn, cell.transform);
 
             var cellRenderer = cell.GetComponent<SpriteRenderer>();
@@ -86,7 +89,8 @@ namespace Game
 
         private void ReadSpawnableCellsTags()
         {
-            prefabs
+            spawnerPrefabs
+                .Select(x => x.Prefab)
                 .SelectMany(x => x.GetCellComponents().Select(c => c.CellTag))
                 .Distinct()
                 .ToList()
