@@ -5,6 +5,7 @@ using Animations.AsyncAnimations;
 using Cells;
 using Game;
 using TurnData;
+using TurnData.FragmentedTurn;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -26,7 +27,7 @@ namespace GameGrid
         
         public static GridController Instance { get; private set; }
 
-        public TurnContext CurrentTurn { get; private set; }
+        public ITurnContext CurrentTurn { get; private set; }
 
         public int TurnCount { get; private set; }        
         
@@ -58,8 +59,6 @@ namespace GameGrid
         {
             var index = _grid.IndexOf(a);
 
-            CurrentTurn.Log("replace");
-            
             CurrentTurn.Next(() => new ScaleAsync(a.transform, Vector3.zero).Play(a));
 
             CurrentTurn.Next(() =>
@@ -179,7 +178,16 @@ namespace GameGrid
                 TurnCount++;
             }
             
-            var turnContext = new TurnContext(StartCoroutine, () => { });
+            var turnContext = new FragmentedTurnContext(StartCoroutine);
+            turnContext.MainFragmentCompleted += () =>
+            {
+                foreach (var cell in _grid.Cells)
+                {
+                    turnContext.NextFragment(new TurnAction(() => cell.OnTurnEnded()));
+                }
+ 
+                turnContext.ContinueTurn();
+            };
             turnContext.TurnFinished += CreateNewTurn;
             turnContext.TurnFinished += turnFinishedEvent.Invoke;
             CurrentTurn = turnContext;
