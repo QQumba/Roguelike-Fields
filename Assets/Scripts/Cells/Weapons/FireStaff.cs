@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections;
 using Animations;
-using Animations.AsyncAnimations;
 using Cells.Components;
 using GameGrid;
 using TurnData;
+using TurnData.FragmentedTurn;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Grid = GameGrid.Grid;
 using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 namespace Cells.Weapons
 {
@@ -38,7 +36,7 @@ namespace Cells.Weapons
         
         private GridController _gridController;
 
-        private TurnContext CurrentTurn => _gridController.CurrentTurn;
+        private ITurnContext CurrentTurn => _gridController.CurrentTurn;
 
         public override event Action WeaponBroken;
 

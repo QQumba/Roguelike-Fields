@@ -71,12 +71,12 @@ namespace Cells
             visitableComponent!.Accept(visitor);
         }
 
-        public void OnTurnEnded(TurnAction action)
+        // questionable
+        public void OnTurnEnded()
         {
             if (_age > 0 || _controller.TurnCount == 0)
             {
-                _components.ForEach(x => x.OnTurnEnded(action));
-                Highlight(false);
+                _components.ForEach(x => x.OnTurnEnded());
             }
             
             _age++;

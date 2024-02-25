@@ -2,24 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using GameGrid;
+using TurnData.FragmentedTurn;
 using UnityEngine;
 
 namespace TurnData
 {
-    public class TurnContext
+    public class TurnContext : ITurnContext
     {
         private readonly Queue<ITurnAction> _actions;
         
-        private readonly Func<IEnumerator, Coroutine> _coroutineRunner;
+        private readonly Func<IEnumerator, Coroutine> startCoroutine;
         private readonly Action _onTurnEnded;
 
         private bool _onTurnEndedTriggered;
         
         public event Action TurnFinished;
         
-        public TurnContext(Func<IEnumerator, Coroutine> coroutineRunner, Action onTurnEnded)
+        public TurnContext(Func<IEnumerator, Coroutine> startCoroutine, Action onTurnEnded)
         {
-            _coroutineRunner = coroutineRunner;
+            this.startCoroutine = startCoroutine;
             _onTurnEnded = onTurnEnded;
             
             _actions = new Queue<ITurnAction>();
@@ -42,7 +43,7 @@ namespace TurnData
                     return;
                 }
 
-                Next(_onTurnEnded);
+                this.Next(_onTurnEnded);
                 _onTurnEndedTriggered = true;
             }
 
@@ -56,36 +57,11 @@ namespace TurnData
                 Debug.Log($"{time:O}: {action.Message}");
             }
             
-            action.Start(_coroutineRunner);
-        }
-
-        public void Next(Action action)
-        {
-            var a = new TurnAction(action);
-            Next(a);
-        }
-        
-        public void Next(Action action, string message)
-        {
-            var a = new TurnAction(action) { Message = message };
-            Next(a);
-        }
-        
-        public void Next(Func<IEnumerator> action)
-        {
-            var a = new TurnAction(action);
-            Next(a);
-        }
-        
-        public void Next(Func<IEnumerator> action, string message)
-        {
-            var a = new TurnAction(action) { Message = message };
-            Next(a);
+            action.Start(startCoroutine);
         }
 
         public void Next(TurnAction action)
         {
-            action.CoroutineRunner = _coroutineRunner;
             _actions.Enqueue(action);
         }
 

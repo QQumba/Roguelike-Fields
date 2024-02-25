@@ -19,16 +19,16 @@ namespace Cells.Components
         
         public override string CellTag => "bomb";
         
-        public override void OnTurnEnded(TurnAction turnAction)
+        public override void OnTurnEnded()
         {
-            base.OnTurnEnded(turnAction);
+            base.OnTurnEnded();
 
             turnsToExplosion.Value--;
             
             if (turnsToExplosion.Value == 0)
             {
                 // var currentTurn = GridController.Instance.CurrentTurn;
-                turnAction.Next(Explode);
+                GridController.Instance.CurrentTurn.Next(Explode);
             }
         }
 

@@ -11,9 +11,7 @@ namespace TurnData
         private int _coroutinesInProgress;
 
         public string Message { get; set; }
-        
-        public Func<IEnumerator, Coroutine> CoroutineRunner { get; set; }
-        
+
         public event Action Finished;
 
         public TurnAction(Func<IEnumerator> action)
@@ -50,11 +48,6 @@ namespace TurnData
             }
         }
 
-        public void Next(Action action)
-        {
-            CoroutineRunner(Invoke(WrapAction(action)));
-        }
-        
         public void Add(Func<IEnumerator> action)
         {
             _innerActions.Add(action);
