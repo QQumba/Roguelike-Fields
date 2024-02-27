@@ -1,13 +1,17 @@
-﻿using UnityEngine;
+﻿using DataStore;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Game
 {
     public class CoinCounter : MonoBehaviour
     {
-        private int _coinCount;
-
         public static CoinCounter Instance;
+
+        [SerializeField]
+        private UnityEvent<int> coinCountChanged;
+
+        public int CoinCount { get; private set; }
 
         private void Awake()
         {
@@ -20,13 +24,22 @@ namespace Game
             Instance = this;
         }
 
-        [SerializeField]
-        private UnityEvent<int> coinCountChanged;
+        private void Start()
+        {
+            var game = GameManager.Instance;
+            game.GameEnding += SaveCoins;
+        }
 
         public void AddCoin()
         {
-            _coinCount++;
-            coinCountChanged.Invoke(_coinCount);
+            CoinCount++;
+            coinCountChanged.Invoke(CoinCount);
+        }
+
+        public void SaveCoins()
+        {
+            var goldStorage = new GoldStorage();
+            goldStorage.AddGold(CoinCount);
         }
     }
 }

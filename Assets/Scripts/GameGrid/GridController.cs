@@ -104,6 +104,38 @@ namespace GameGrid
                 () => new FlipAsync(b.transform, 360, 270, rotationSpeed * 2).Play(b),
                 "flip new cell to normal");
         }
+        
+        public void ReplaceWithFakeFlip(Cell a, Cell b)
+        {
+            var index = _grid.IndexOf(a);
+            var position = _grid.GetCellPosition(index);
+            var emptyCell = _spawner.SpawnEmptyCell();
+            const float scaleSpeed = 6f;
+
+            var hidden = new Vector3(0, 1);
+            var visible = new Vector3(1, 1);
+            
+            CurrentTurn.Next(() => new ScaleAsync(a.transform, hidden, visible, scaleSpeed).Play(a));
+
+            CurrentTurn.Next(() =>
+            {
+                _grid.RemoveCell(a);
+                _grid.SetCell(b, index);
+            });
+
+            CurrentTurn.Next(() => emptyCell.transform.position = position);
+            
+            CurrentTurn.Next(() => new ScaleAsync(emptyCell.transform, visible, hidden, scaleSpeed).Play(emptyCell));
+            CurrentTurn.Next(() => new ScaleAsync(emptyCell.transform, hidden, visible, scaleSpeed).Play(emptyCell));
+
+            CurrentTurn.Next(() =>
+            {
+                Destroy(emptyCell.gameObject);
+                b.gameObject.SetActive(true);
+            });
+
+            CurrentTurn.Next(() => new ScaleAsync(b.transform, visible, hidden, scaleSpeed).Play(b));
+        }
 
         public void SwapCells(Cell a, Cell b)
         {
@@ -137,7 +169,7 @@ namespace GameGrid
 
             CurrentTurn.Next(() => new ScaleAsync(b.transform, Vector3.zero).Play(b));
             CurrentTurn.Next(() => _grid.RemoveCell(b));
-            CurrentTurn.Next(() => new MoveAsync(a.transform, _grid.GetCellPosition(indexOfB)).Play(a));
+            CurrentTurn.Next(() => new MoveAsync(a.transform, _grid.GetCellPosition(indexOfB), speed: 8).Play(a));
             CurrentTurn.Next(() => _grid.SetCell(a, indexOfB));
         }
 

@@ -228,15 +228,18 @@ MonoBehaviour:
     spawn: 0
     maxCount: 99
   - prefab: {fileID: 4161024300577302309, guid: 8f989b64123c3844eb9572ee901ac30e, type: 3}
-    spawn: 1
+    spawn: 0
     maxCount: 99
   - prefab: {fileID: 5882218215079035460, guid: 91d633c4f19336a4ab3e29760cc10c24, type: 3}
     spawn: 0
     maxCount: 99
   - prefab: {fileID: 6253117982367767464, guid: d40c9881c09717d4e9219eeb012d59be, type: 3}
-    spawn: 0
+    spawn: 1
     maxCount: 99
   - prefab: {fileID: 4161024300577302309, guid: 518559df2f1e16948a6e51718383bbe7, type: 3}
+    spawn: 0
+    maxCount: 99
+  - prefab: {fileID: 7803166862862941185, guid: cd03f761aa5c72c49a858f13e711499d, type: 3}
     spawn: 1
     maxCount: 99
 --- !u!114 &62198685
@@ -1142,6 +1145,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1664296696
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1664296698}
+  - component: {fileID: 1664296697}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1664296697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664296696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9e0f1a6917d4b898f427d44ca3b05b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1664296698
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664296696}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1672847321
 GameObject:

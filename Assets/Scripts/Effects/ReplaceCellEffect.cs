@@ -22,9 +22,10 @@ namespace Effects
 
         public void ReplaceCell(CellEventArgs e)
         {
-            var newCell = _cellSpawner.SpawnCellWithContent(cellPrefab, Vector3.zero);
-            // newCell.gameObject.SetActive(false);
-            _gridController.Replace(e.Cell, newCell);
+            var newCell = _cellSpawner.SpawnCellWithContent(cellPrefab, Vector3.one);
+            newCell.gameObject.SetActive(false);
+            // _gridController.Replace(e.Cell, newCell);
+            _gridController.ReplaceWithFlip(e.Cell, newCell);
         }
     }
 }
