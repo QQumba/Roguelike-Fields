@@ -36,8 +36,6 @@ namespace Effects
             {
                 hero.Damageable.DealDamage(damage);
             }
-            
-            GridController.Instance.Move(hero.Cell, args.Cell);
         }
     }
 }

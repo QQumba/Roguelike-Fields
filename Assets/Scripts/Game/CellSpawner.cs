@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Cells;
-using Cells.Components;
-using GameGrid;
 using Tags;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Grid = GameGrid.Grid;
 using Random = UnityEngine.Random;
 
@@ -40,40 +37,33 @@ namespace Game
             Instance = this;
         }
 
-        public Cell SpawnEmptyCell(Vector3? initialScale = null)
+        public Cell SpawnEmptyCell(Vector3 initialScale)
         {
             var cell = Instantiate(cellPrefab);
-            initialScale ??= Vector3.one;
-            cell.transform.localScale = initialScale.Value;
+            cell.transform.localScale = initialScale;
 
             return cell;
         }
 
         public Cell SpawnHero()
         {
-            var cell = SpawnEmptyCell();
-            var hero = Instantiate(heroContent, cell.transform);
-
-            // I assume that hero have same sorting layer as cell and higher order within that layer then other components
-            var cellRenderer = cell.GetComponent<SpriteRenderer>();
-            cellRenderer.sortingOrder = hero.GetSortingOrder() - 1;
-
-            foreach (var component in hero.GetCellComponents())
-            {
-                cell.AddCellComponent(component);
-            }
-            
-            return cell;
+            return SpawnCellWithContent(heroContent, Vector3.one);
         }
 
         public Cell SpawnCell(Vector3? initialScale = null)
         {
-            var cell = SpawnEmptyCell(initialScale);
-
             var prefabsToSpawn = spawnerPrefabs.Where(x => x.Spawn).ToArray();
             var i = Random.Range(0, prefabsToSpawn.Length);
-            var prefabToSpawn = prefabsToSpawn[i].Prefab;
-            var content = Instantiate(prefabToSpawn, cell.transform);
+            var cellContent = prefabsToSpawn[i].Prefab;
+            initialScale ??= Vector3.one;
+
+            return SpawnCellWithContent(cellContent, initialScale.Value);
+        }
+
+        public Cell SpawnCellWithContent(CellContent cellContent, Vector3 initialScale)
+        {
+            var cell = SpawnEmptyCell(initialScale);
+            var content = Instantiate(cellContent, cell.transform);
 
             var cellRenderer = cell.GetComponent<SpriteRenderer>();
             cellRenderer.sortingOrder = content.GetSortingOrder() - 1;
@@ -82,6 +72,11 @@ namespace Game
             foreach (var component in components)
             {
                 cell.AddCellComponent(component);
+            }
+
+            if (content.TryGetInteraction(out var interaction))
+            {
+                cell.AddInteraction(interaction);
             }
 
             return cell;
@@ -132,41 +127,6 @@ namespace Game
                 .Min(x => x.Value);
             
             return tagNumber.First(x => x.Value == min).Key;
-        }
-
-        private Cell SpawnCellWithComponent(CellComponent cellComponent, Vector3 initialScale)
-        {
-            var cell = SpawnEmptyCell(initialScale);
-            var instance = Instantiate(cellComponent, cell.transform);
-
-            var cellRenderer = cell.GetComponent<SpriteRenderer>();
-            var componentRenderer = instance.GetComponent<Renderer>();
-            cellRenderer.sortingOrder = componentRenderer.sortingOrder - 1;
-
-            var components = instance.GetComponents<CellComponent>();
-            foreach (var component in components)
-            {
-                cell.AddCellComponent(component);
-            }
-
-            return cell;
-        }
-        
-        public Cell SpawnCellWithContent(CellContent cellComponent, Vector3 initialScale)
-        {
-            var cell = SpawnEmptyCell(initialScale);
-            var content = Instantiate(cellComponent, cell.transform);
-
-            var cellRenderer = cell.GetComponent<SpriteRenderer>();
-            cellRenderer.sortingOrder = content.GetSortingOrder() - 1;
-
-            var components = content.GetCellComponents();
-            foreach (var component in components)
-            {
-                cell.AddCellComponent(component);
-            }
-
-            return cell;
         }
     }
 }

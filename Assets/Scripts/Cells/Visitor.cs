@@ -1,14 +1,14 @@
-﻿using Cells.Components;
+﻿using Cells.Interactions;
 
 namespace Cells
 {
     public interface IVisitor
     {
-        void Visit(Enemy enemy);
+        void Visit(AttackInteraction enemy);
 
-        void Visit(Pickable pickable);
-        void Visit(Activatable activatable);
-        void Visit(Swappable swappable);
+        void Visit(PickUpInteraction pickable);
+        void Visit(ActivateInteraction activatable);
+        void Visit(SwapInteraction swappable);
     }
 
     public interface IVisitable
