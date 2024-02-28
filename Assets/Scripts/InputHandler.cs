@@ -41,7 +41,7 @@ public class InputHandler : MonoBehaviour
         _controller.CurrentTurn.Next(() =>
         {
             var hero = _grid.Hero.GetCellComponent<Hero>();
-            cell.Accept(hero);
+            cell.Interaction.InteractWith(hero);
         });
 
         _waitForInput = false;

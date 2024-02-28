@@ -1,4 +1,5 @@
-﻿using Cells.Weapons;
+﻿using Cells.Interactions;
+using Cells.Weapons;
 using Events;
 using GameGrid;
 using Tags;
@@ -7,7 +8,7 @@ using UnityEngine.Events;
 
 namespace Cells.Components
 {
-    public class Hero : CellComponent, IVisitor
+    public class Hero : CellComponent
     {
         [SerializeField]
         private UnityEvent<CellEventArgs> enemyAttackedEvent;
@@ -17,7 +18,7 @@ namespace Cells.Components
         
         private GridController _controller;
 
-        public Weapon Weapon { get; set; }
+        public Weapon Weapon { get; private set; }
 
         public Damageable Damageable => Cell.GetCellComponent<Damageable>();
 
@@ -53,34 +54,34 @@ namespace Cells.Components
             };
         }
         
-        public void Visit(Enemy enemy)
-        {
-            if (Weapon is null)
-            {
-                var enemyHealth = enemy.Health.Value;
-                Damageable.DealDamage(enemyHealth);
-                _controller.Move(Cell, enemy.Cell);
-                return;
-            }
-
-            Weapon.Attack(enemy);
-        }
-
-        public void Visit(Pickable pickable)
-        {
-            pickable.PickUp();
-            
-            _controller.Move(Cell, pickable.Cell);
-        }
-
-        public void Visit(Activatable activatable)
-        {
-            activatable.Activate();
-        }
-
-        public void Visit(Swappable swappable)
-        {
-            _controller.SwapCells(Cell, swappable.Cell);
-        }
+        // public void Visit(AttackInteraction enemy)
+        // {
+        //     if (Weapon is null)
+        //     {
+        //         var enemyHealth = enemy.Health.Value;
+        //         Damageable.DealDamage(enemyHealth);
+        //         _controller.Move(Cell, enemy.Cell);
+        //         return;
+        //     }
+        //
+        //     Weapon.Attack(enemy);
+        // }
+        //
+        // public void Visit(PickUpInteraction pickable)
+        // {
+        //     pickable.PickUp();
+        //     
+        //     _controller.Move(Cell, pickable.Cell);
+        // }
+        //
+        // public void Visit(ActivateInteraction activatable)
+        // {
+        //     activatable.Activate();
+        // }
+        //
+        // public void Visit(SwapInteraction swappable)
+        // {
+        //     _controller.SwapCells(Cell, swappable.Cell);
+        // }
     }
 }

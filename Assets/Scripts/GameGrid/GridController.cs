@@ -47,7 +47,8 @@ namespace GameGrid
         public void Move(Cell a, Cell b)
         {
             var indexOfA = _grid.IndexOf(a);
-            var turnDirection = _grid.GetTurnDirection(a, b);
+
+            var turnDirection = CurrentTurn.TurnDirection;
             var shiftDetails = _grid.GetShiftDetails(indexOfA, turnDirection);
 
             MoveCell(a, b);
@@ -75,7 +76,7 @@ namespace GameGrid
         {
             var index = _grid.IndexOf(a);
             var position = _grid.GetCellPosition(index);
-            var emptyCell = _spawner.SpawnEmptyCell();
+            var emptyCell = _spawner.SpawnEmptyCell(Vector3.one);
             const float rotationSpeed = 3f;
 
             CurrentTurn.Next(
@@ -109,7 +110,7 @@ namespace GameGrid
         {
             var index = _grid.IndexOf(a);
             var position = _grid.GetCellPosition(index);
-            var emptyCell = _spawner.SpawnEmptyCell();
+            var emptyCell = _spawner.SpawnEmptyCell(Vector3.one);
             const float scaleSpeed = 6f;
 
             var hidden = new Vector3(0, 1);

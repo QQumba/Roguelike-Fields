@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cells.Components;
+using Cells.Interactions;
 using GameGrid;
-using TurnData;
 using UnityEngine;
 
 namespace Cells
@@ -14,6 +14,8 @@ namespace Cells
         private int _age;
 
         private GridController _controller;
+
+        public Interaction Interaction { get; private set; }
         
         /// <summary>
         /// Indicates whether cell is animated at the moment or not.
@@ -65,10 +67,10 @@ namespace Cells
             _components.Add(component);
         }
 
-        public void Accept(IVisitor visitor)
+        public void AddInteraction<T>(T interaction) where T : Interaction
         {
-            var visitableComponent = _components.Single(x => x is IVisitable) as IVisitable;
-            visitableComponent!.Accept(visitor);
+            interaction.Cell = this;
+            Interaction = interaction;
         }
 
         // questionable
@@ -86,11 +88,6 @@ namespace Cells
         {
             var spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.color = yes ? Color.cyan : Color.white;
-        }
-
-        public void OnTurnStarted()
-        {
-            _components.ForEach(x => x.OnTurnStarted());
         }
     }
 }

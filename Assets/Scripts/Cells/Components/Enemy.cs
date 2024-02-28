@@ -10,7 +10,7 @@ namespace Cells.Components
 
         public void Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
+            // visitor.Visit(this);
         }
 
         public override string CellTag => CellTags.Enemy;

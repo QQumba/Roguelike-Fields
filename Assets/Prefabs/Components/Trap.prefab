@@ -63,6 +63,7 @@ Transform:
   m_Children:
   - {fileID: 4890482815366294855}
   - {fileID: 4226203975879312681}
+  - {fileID: 2121836527006632075}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -210,6 +211,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &4905932963330137562
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2121836527006632075}
+  - component: {fileID: 6800275630701612795}
+  m_Layer: 0
+  m_Name: PickUpInteraction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2121836527006632075
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4905932963330137562}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.08976563, y: 0.12227541, z: -0.0001680468}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2848739488458971893}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6800275630701612795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4905932963330137562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8db399f979d14e98aaeb2d628b80e692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5039273891977254672
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4890482815366294855}
-  - component: {fileID: 5391711655751962734}
+  - component: {fileID: 2372441613865607682}
   m_Layer: 0
   m_Name: Components
   m_TagString: Untagged
@@ -243,7 +288,7 @@ Transform:
   m_Father: {fileID: 2848739488458971893}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5391711655751962734
+--- !u!114 &2372441613865607682
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -252,25 +297,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5039273891977254672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f6c234e86cd43199ddf1ead9eafb1ce, type: 3}
+  m_Script: {fileID: 11500000, guid: cbc3a1941f364914842add2c4ada664e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnEndedEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7164031371412120921}
-        m_TargetAssemblyTypeName: Effects.TrapEffect, Assembly-CSharp
-        m_MethodName: ToggleTrap
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  activatedEvent:
+  pickedUpEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7164031371412120921}
