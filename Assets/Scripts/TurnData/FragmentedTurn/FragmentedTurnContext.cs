@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using GameGrid;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TurnData.FragmentedTurn
 {
@@ -27,7 +28,7 @@ namespace TurnData.FragmentedTurn
         }
 
         public Direction TurnDirection { get; set; }
-        
+
         public event Action TurnFinished;
 
         public event Action MainFragmentCompleted;
@@ -50,9 +51,15 @@ namespace TurnData.FragmentedTurn
             }
         }
 
-        public void Next(TurnAction action)
+        public ITurnContext Next(TurnAction action)
         {
             _activeFragment!.Next(action);
+            return this;
+        }
+
+        public void Destroy(Object obj, int secondsDelay = 3)
+        {
+            throw new NotImplementedException();
         }
 
         public void NextFragment(TurnAction action)

@@ -1,12 +1,10 @@
-﻿using Cells.Components;
-using Events;
-using GameGrid;
+﻿using Cells.Components.Interfaces;
 using UnityEngine;
 using Grid = GameGrid.Grid;
 
-namespace Effects
+namespace Cells.Components
 {
-    public class TrapEffect : MonoBehaviour
+    public class Trap : CellComponent, IPickable
     {
         [SerializeField]
         private int damage = 4;
@@ -21,20 +19,27 @@ namespace Effects
         private SpriteRenderer trapSpriteRenderer;
         
         private bool _active = true;
-        
-        public void ToggleTrap(CellEventArgs _)
+
+        public override string CellTag => "trap";
+
+        public override void OnTurnEnded()
+        {
+            ToggleTrap();
+        }
+
+        public void ToggleTrap()
         {
             _active = !_active;
             trapSpriteRenderer.sprite = _active ? trapActiveSprite : trapInactiveSprite;
         }
         
-        public void OnHeroEnter(CellEventArgs args)
+        public void PickUp()
         {
             var hero = Grid.Instance.Hero.GetCellComponent<Hero>();
             
             if (_active)
             {
-                hero.Damageable.DealDamage(damage);
+                hero.DamageableLegacy.DealDamage(damage);
             }
         }
     }

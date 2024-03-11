@@ -20,10 +20,10 @@ namespace Cells
             return interaction is not null;
         }
 
-        public int GetSortingOrder()
+        public int GetSortingOrder(int defaultOrder)
         {
-            var sprite = GetComponentsInChildren<SpriteRenderer>().First();
-            return sprite.sortingOrder;
+            var sprite = GetComponentsInChildren<SpriteRenderer>().FirstOrDefault();
+            return sprite is null ? defaultOrder : sprite.sortingOrder;
         }
     }
 }

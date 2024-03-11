@@ -79,54 +79,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c6eaac3688c46aba93288f50776e247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1314582033339776247
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 323377871739377145}
-  - component: {fileID: 7164031371412120921}
-  m_Layer: 0
-  m_Name: TrapHandler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &323377871739377145
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1314582033339776247}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4890482815366294855}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7164031371412120921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1314582033339776247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 785e4a7666f04d3294261e694c2e46f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 4
-  trapActiveSprite: {fileID: 21300000, guid: 51c82a2805536f240926929e369b7c04, type: 3}
-  trapInactiveSprite: {fileID: 21300000, guid: 7cb63b8b3c6324648ab7ffe2f7a3d0c8, type: 3}
-  trapSpriteRenderer: {fileID: 1195905995014390481}
 --- !u!1 &1323177758084068047
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,8 +187,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4905932963330137562}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.08976563, y: 0.12227541, z: -0.0001680468}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -264,7 +216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4890482815366294855}
-  - component: {fileID: 2372441613865607682}
+  - component: {fileID: 1523104307714156295}
   m_Layer: 0
   m_Name: Components
   m_TagString: Untagged
@@ -283,12 +235,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 323377871739377145}
+  m_Children: []
   m_Father: {fileID: 2848739488458971893}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2372441613865607682
+--- !u!114 &1523104307714156295
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -297,21 +248,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5039273891977254672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbc3a1941f364914842add2c4ada664e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6fd0b0196cfe4737a0c09130e38601f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickedUpEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7164031371412120921}
-        m_TargetAssemblyTypeName: Effects.TrapEffect, Assembly-CSharp
-        m_MethodName: OnHeroEnter
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  damage: 4
+  trapActiveSprite: {fileID: 21300000, guid: 51c82a2805536f240926929e369b7c04, type: 3}
+  trapInactiveSprite: {fileID: 21300000, guid: 7cb63b8b3c6324648ab7ffe2f7a3d0c8, type: 3}
+  trapSpriteRenderer: {fileID: 1195905995014390481}

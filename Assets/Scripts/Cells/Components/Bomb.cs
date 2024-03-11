@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cells.Components.Interfaces;
 using GameGrid;
 using TurnData;
+using TurnData.FragmentedTurn;
 using UnityEngine;
 using Grid = GameGrid.Grid;
 using Random = UnityEngine.Random;
@@ -16,9 +18,16 @@ namespace Cells.Components
         
         [SerializeField]
         private ValueProvider turnsToExplosion;
+
+        private GridController _gridController;
         
         public override string CellTag => "bomb";
-        
+
+        private void Start()
+        {
+            _gridController = GridController.Instance;
+        }
+
         public override void OnTurnEnded()
         {
             base.OnTurnEnded();
@@ -27,52 +36,30 @@ namespace Cells.Components
             
             if (turnsToExplosion.Value == 0)
             {
-                // var currentTurn = GridController.Instance.CurrentTurn;
-                GridController.Instance.CurrentTurn.Next(Explode);
+                Explode();
             }
         }
-
-        // public override void OnTurnStarted()
-        // {
-        //     base.OnTurnStarted();
-        //
-        //     if (turnToExplosion == 0)
-        //     {
-        //         Explode();
-        //     }
-        // }
 
         private void Explode()
         {
             var damageables = GetSurroundingDamageables();
             foreach (var damageable in damageables)
             {
-                damageable.DealDamage(damage);
+                _gridController.CurrentTurn.Next(() => damageable.DealDamage(damage));    
             }
 
-            return;
-            
-            // looks sus                    |
-            //                             \/
-            // not working correctly at a start of a turn 
-            var grid = Grid.Instance;
-            var direction = Enum.Parse<Direction>(Random.Range(0, 4).ToString());
-
-            if (grid.IsCellAdjacentToHero(Cell) && grid.GetTurnDirection(Cell, grid.Hero) == direction)
-            {
-                direction.NextDirectionClockwise();
-            }
-            
-            grid.GetShiftDetails(Cell, direction);
+            _gridController.CurrentTurn.Next(() =>
+                _gridController.CurrentTurn.Next(() =>
+                    _gridController.Remove(Cell)));
         }
 
-        private IEnumerable<Damageable> GetSurroundingDamageables()
+        private IEnumerable<IDamageable> GetSurroundingDamageables()
         {
             var grid = Grid.Instance;
  
             var damageables = grid.GetAdjacentCells(Cell)
-                .Where(x => x.HasCellComponent<Damageable>())
-                .Select(x => x.GetCellComponent<Damageable>());
+                .Where(x => x.HasCellComponent<IDamageable>())
+                .Select(x => x.GetCellComponent<IDamageable>());
             
             return damageables;
         }

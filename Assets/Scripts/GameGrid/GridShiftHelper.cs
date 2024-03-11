@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cells;
+using Cells.Components;
 using UnityEngine;
 
 namespace GameGrid
@@ -34,12 +35,43 @@ namespace GameGrid
             return shiftDirection;
         }
 
+        /// <summary>
+        /// Get shift details based on a current turn direction, shift direction is random, cells in a direction never contains Hero.
+        /// </summary>
+        /// <param name="grid">Grid.</param>
+        /// <param name="index">Index of a cell that was removed and need to be filled by shifting.</param>
+        /// <param name="turnDirection">Direction of a current turn.</param>
+        /// <returns>Shift details.</returns>
+        public static CellShiftDetails GetRandomShiftDetails(this Grid grid, Vector2Int index, Direction turnDirection)
+        {
+            var direction = turnDirection;
+            var shiftNoneOrHero = true;
+            CellShiftDetails shiftDetails = null;
+            
+            while (shiftNoneOrHero)
+            {
+                shiftDetails = GetCellsFromDirection(grid, index, direction);
+
+                shiftNoneOrHero = !shiftDetails.Cells.Any() || shiftDetails.Cells.Any(x => x.HasCellComponent<Hero>());
+                direction = direction.NextDirectionClockwise();
+            }
+
+            return shiftDetails;
+        }
+
         public static CellShiftDetails GetShiftDetails(this Grid grid, Cell cell, Direction turnDirection)
         {
             var cellIndex = grid.IndexOf(cell);
             return grid.GetShiftDetails(cellIndex, turnDirection);
         }
 
+        /// <summary>
+        /// Get shift details based on a current turn direction, shift from first available direction clockwise.
+        /// </summary>
+        /// <param name="grid">Grid.</param>
+        /// <param name="cellIndex">Index of a cell that was removed and need to be filled by shifting.</param>
+        /// <param name="turnDirection">Direction of a current turn.</param>
+        /// <returns>Shift details.</returns>
         public static CellShiftDetails GetShiftDetails(this Grid grid, Vector2Int cellIndex, Direction turnDirection)
         {
             var cellShiftDetails = new List<CellShiftDetails>();

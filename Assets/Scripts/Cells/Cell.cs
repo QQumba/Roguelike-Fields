@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cells.Components;
+using Cells.Components.Interfaces;
 using Cells.Interactions;
 using GameGrid;
 using UnityEngine;
@@ -33,13 +34,19 @@ namespace Cells
         /// </summary>
         /// <typeparam name="T">Cell component type to find.</typeparam>
         /// <returns>Component or null if not found.</returns>
-        public T GetCellComponent<T>() where T : CellComponent
+        public T GetCellComponent<T>() where T : ICellComponent
         {
             var component = _components.Where(x => x is T).Cast<T>().FirstOrDefault();
             return component;
         }
+        
+        public List<T> GetCellComponents<T>() where T : ICellComponent
+        {
+            var component = _components.Where(x => x is T).Cast<T>();
+            return component.ToList();
+        }
 
-        public bool HasCellComponent<T>() where T : CellComponent
+        public bool HasCellComponent<T>() where T : ICellComponent
         {
             return _components.Any(x => x is T);
         }

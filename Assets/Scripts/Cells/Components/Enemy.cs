@@ -1,12 +1,13 @@
-﻿using Tags;
+﻿using Cells.Components.Interfaces;
+using Tags;
 
 namespace Cells.Components
 {
     public class Enemy : CellComponent, IVisitable
     {
-        public Damageable Damageable => Cell.GetCellComponent<Damageable>();
+        public IDamageable Damageable => Cell.GetCellComponent<IDamageable>();
 
-        public Health Health => Cell.GetCellComponent<Health>();
+        public ValueProvider Health => Damageable.Health;
 
         public void Accept(IVisitor visitor)
         {

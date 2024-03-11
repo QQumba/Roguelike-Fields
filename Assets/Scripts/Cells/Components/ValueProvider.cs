@@ -7,7 +7,7 @@ using UnityEngine.Events;
 namespace Cells.Components
 {
     /// <summary>
-    /// Currently the same component as a Health, but us meant to be used not only as health value.
+    /// Currently the same component as a Health, but meant to be used not only as health value.
     /// Most likely Health component should be replaced with this.
     /// </summary>
     public class ValueProvider : CellComponent
@@ -21,7 +21,7 @@ namespace Cells.Components
         [SerializeField] private UnityEvent<ValueChangedEventArgs> valueChangedEvent;
         [SerializeField] private UnityEvent<ValueChangedEventArgs> valueInitializedEvent;
         [SerializeField] private UnityEvent valueDisposedEvent;
-
+        
         public event Action<ValueChangedEventArgs> ValueChanged;
 
         public override string CellTag => CellTags.HasHealth;

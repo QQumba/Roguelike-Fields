@@ -1,33 +1,36 @@
 using System;
 using System.Collections;
-using TurnData.FragmentedTurn;
 
-namespace TurnData
+namespace TurnData.FragmentedTurn
 {
     public static class TurnContextExtensions
     {
-        public static void Next(this ITurnContext context, Action action)
+        public static ITurnContext Next(this ITurnContext context, Action action)
         {
             var a = new TurnAction(action);
             context.Next(a);
+            return context;
         }
 
-        public static void Next(this ITurnContext context, Action action, string message)
+        public static ITurnContext Next(this ITurnContext context, Action action, string message)
         {
-            var a = new TurnAction(action) { Message = message };
+            var a = new TurnAction(action) { DebugMessage = message };
             context.Next(a);
+            return context;
         }
 
-        public static void Next(this ITurnContext context, Func<IEnumerator> action)
+        public static ITurnContext Next(this ITurnContext context, Func<IEnumerator> action)
         {
             var a = new TurnAction(action);
             context.Next(a);
+            return context;
         }
 
-        public static void Next(this ITurnContext context, Func<IEnumerator> action, string message)
+        public static ITurnContext Next(this ITurnContext context, Func<IEnumerator> action, string message)
         {
-            var a = new TurnAction(action) { Message = message };
+            var a = new TurnAction(action) { DebugMessage = message };
             context.Next(a);
+            return context;
         }
     }
 }

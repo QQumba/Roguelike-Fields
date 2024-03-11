@@ -1,4 +1,5 @@
 ﻿using System;
+using Cells.Components.Interfaces;
 using Events;
 using Tags;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Cells.Components
     /// <summary>
     /// Cell component that allow cell to damage and heal the cell.
     /// </summary>
-    public sealed class Damageable : CellComponent
+    public sealed class DamageableLegacy : CellComponent, IDamageable, IHealable
     {
         [SerializeField]
         private UnityEvent<CellEventArgs> diedEvent;
@@ -18,14 +19,14 @@ namespace Cells.Components
         // or health and damageable can be even merged together
         [SerializeField]
         private UnityEvent<CellEventArgs> healedEvent;
-        
-        public Health Health => Cell.GetCellComponent<Health>();
 
+        public ValueProvider Health => Cell.GetCellComponent<ValueProvider>();
+        
         public event Action<CellEventArgs> Died;
         
         public override string CellTag => CellTags.Damageable;
 
-        protected void Awake()
+        private void Awake()
         {
             Died += diedEvent.Invoke;
         }
@@ -33,22 +34,25 @@ namespace Cells.Components
         public int DealDamage(int damage)
         {
             var damageDealt = Mathf.Min(damage, Health.Value);
-            Health.Value -= damage;
+            Health.Value -= damageDealt;
             if (Health.Value <= 0)
             {
-                Kill();    
+                Eliminate();    
             }
 
             return damageDealt;
         }
 
-        public void Heal(int healing)
+        public int ApplyHealing(int healing)
         {
-            Health.Value += healing;
+            var heathRestored = Mathf.Min(healing, Health.MaxValue - Health.Value);
+            Health.Value += heathRestored;
             healedEvent.Invoke(new CellEventArgs(Cell));
+
+            return heathRestored;
         }
 
-        public void Kill()
+        public void Eliminate()
         {
             Died?.Invoke(new CellEventArgs(Cell));
         }

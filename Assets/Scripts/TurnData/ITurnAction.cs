@@ -6,7 +6,7 @@ namespace TurnData
 {
     public interface ITurnAction
     {
-        string Message { get; }
+        string DebugMessage { get; }
         event Action Finished;
         void Start(Func<IEnumerator, Coroutine> coroutineRunner);
     }

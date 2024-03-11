@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Animations.AsyncAnimations;
+using Animations.Factories;
 using Cells;
 using Game;
 using TurnData;
@@ -21,6 +21,7 @@ namespace GameGrid
     {
         private Grid _grid;
         private CellSpawner _spawner;
+        private AnimationFactory _animations;
         
         [SerializeField]
         private UnityEvent turnFinishedEvent;
@@ -42,6 +43,8 @@ namespace GameGrid
         private void Start()
         {
             CreateNewTurn();
+
+            _animations = AnimationFactory.Instance;
         }
         
         public void Move(Cell a, Cell b)
@@ -56,11 +59,30 @@ namespace GameGrid
             SpawnCell(shiftDetails.LastCellIndex);
         }
 
+        public void Remove(Cell cell)
+        {
+            var index = _grid.IndexOf(cell);
+
+            var shiftDetails = _grid.GetRandomShiftDetails(index, CurrentTurn.TurnDirection);
+
+            CurrentTurn.Next(() => _animations.Scale(cell.transform, Vector3.zero).Play(cell));
+            CurrentTurn.Next(() => _grid.RemoveCell(cell));
+
+            ShiftCells(index, shiftDetails);
+            SpawnCell(shiftDetails.LastCellIndex);
+        }
+
+        public void ReplaceWithEmpty(Cell cell)
+        {
+            var emptyContent = _spawner.SpawnEmptyContent();
+            ReplaceWithFlip(cell, emptyContent);
+        }
+        
         public void Replace(Cell a, Cell b)
         {
             var index = _grid.IndexOf(a);
 
-            CurrentTurn.Next(() => new ScaleAsync(a.transform, Vector3.zero).Play(a));
+            CurrentTurn.Next(() => _animations.Scale(a.transform, Vector3.zero).Play(a));
 
             CurrentTurn.Next(() =>
             {
@@ -68,42 +90,38 @@ namespace GameGrid
                 _grid.SetCell(b, index);
             });
             
-            CurrentTurn.Next(() => new ScaleAsync(b.transform, Vector3.one).Play(b));
+            CurrentTurn.Next(() => _animations.Scale(b.transform, Vector3.one).Play(b));
         }
         
-        // works fine, but flipping a 2D sprite looks bad at the moment
         public void ReplaceWithFlip(Cell a, Cell b)
         {
+            b.gameObject.SetActive(false);
             var index = _grid.IndexOf(a);
             var position = _grid.GetCellPosition(index);
             var emptyCell = _spawner.SpawnEmptyCell(Vector3.one);
-            const float rotationSpeed = 3f;
+            const float rotationSpeed = 1f;
 
-            CurrentTurn.Next(
-                () => new FlipAsync(a.transform, 90, 0, rotationSpeed * 2).Play(a),
-                "flip cell");
+            CurrentTurn.Next(() => _animations.Rotate(a.transform, 0, 90, rotationSpeed * 2).Play(a));
 
             CurrentTurn.Next(() =>
             {
                 _grid.RemoveCell(a);
                 _grid.SetCell(b, index);
-            }, "replace cell");
+            });
 
             CurrentTurn.Next(() =>
             {
                 emptyCell.transform.position = position;
-                return new FlipAsync(emptyCell.transform, 270, 90, rotationSpeed).Play(emptyCell);
-            }, "flip empty cell");
+                return _animations.Rotate(emptyCell.transform, 90, 270, rotationSpeed).Play(emptyCell);
+            });
 
             CurrentTurn.Next(() =>
             {
                 Destroy(emptyCell.gameObject);
                 b.gameObject.SetActive(true);
-            }, "remove cell and set new cell active");
+            });
 
-            CurrentTurn.Next(
-                () => new FlipAsync(b.transform, 360, 270, rotationSpeed * 2).Play(b),
-                "flip new cell to normal");
+            CurrentTurn.Next(() => _animations.Rotate(b.transform, 270, 360, rotationSpeed * 2).Play(b));
         }
         
         public void ReplaceWithFakeFlip(Cell a, Cell b)
@@ -116,7 +134,7 @@ namespace GameGrid
             var hidden = new Vector3(0, 1);
             var visible = new Vector3(1, 1);
             
-            CurrentTurn.Next(() => new ScaleAsync(a.transform, hidden, visible, scaleSpeed).Play(a));
+            CurrentTurn.Next(() => _animations.Scale(a.transform, hidden, visible, scaleSpeed).Play(a));
 
             CurrentTurn.Next(() =>
             {
@@ -126,8 +144,8 @@ namespace GameGrid
 
             CurrentTurn.Next(() => emptyCell.transform.position = position);
             
-            CurrentTurn.Next(() => new ScaleAsync(emptyCell.transform, visible, hidden, scaleSpeed).Play(emptyCell));
-            CurrentTurn.Next(() => new ScaleAsync(emptyCell.transform, hidden, visible, scaleSpeed).Play(emptyCell));
+            CurrentTurn.Next(() => _animations.Scale(emptyCell.transform, visible, hidden, scaleSpeed).Play(emptyCell));
+            CurrentTurn.Next(() => _animations.Scale(emptyCell.transform, hidden, visible, scaleSpeed).Play(emptyCell));
 
             CurrentTurn.Next(() =>
             {
@@ -135,21 +153,21 @@ namespace GameGrid
                 b.gameObject.SetActive(true);
             });
 
-            CurrentTurn.Next(() => new ScaleAsync(b.transform, visible, hidden, scaleSpeed).Play(b));
+            CurrentTurn.Next(() => _animations.Scale(b.transform, visible, hidden, scaleSpeed).Play(b));
         }
 
         public void SwapCells(Cell a, Cell b)
         {
             var shrink = new TurnAction(new List<Func<IEnumerator>>
             {
-                () => new ScaleAsync(a.transform, Vector3.zero).Play(a),
-                () => new ScaleAsync(b.transform, Vector3.zero).Play(b)
+                () => _animations.Scale(a.transform, Vector3.zero).Play(a),
+                () => _animations.Scale(b.transform, Vector3.zero).Play(b)
             });
 
             var grow = new TurnAction(new List<Func<IEnumerator>>
             {
-                () => new ScaleAsync(a.transform, Vector3.one).Play(a),
-                () => new ScaleAsync(b.transform, Vector3.one).Play(b)
+                () => _animations.Scale(a.transform, Vector3.one).Play(a),
+                () => _animations.Scale(b.transform, Vector3.one).Play(b)
             });
 
             var indexOfA = _grid.IndexOf(a);
@@ -168,9 +186,9 @@ namespace GameGrid
         {
             var indexOfB = _grid.IndexOf(b);
 
-            CurrentTurn.Next(() => new ScaleAsync(b.transform, Vector3.zero).Play(b));
+            CurrentTurn.Next(() => _animations.Scale(b.transform, Vector3.zero).Play(b));
             CurrentTurn.Next(() => _grid.RemoveCell(b));
-            CurrentTurn.Next(() => new MoveAsync(a.transform, _grid.GetCellPosition(indexOfB), speed: 8).Play(a));
+            CurrentTurn.Next(() => _animations.Move(a.transform, _grid.GetCellPosition(indexOfB)).Play(a));
             CurrentTurn.Next(() => _grid.SetCell(a, indexOfB));
         }
 
@@ -178,12 +196,14 @@ namespace GameGrid
         {
             var moveAction = new TurnAction();
             var setCellAction = new TurnAction();
-            foreach (var c in shiftDetails.Cells)
+            for (var i = 0; i < shiftDetails.Cells.Count; i++)
             {
+                var c = shiftDetails.Cells[i];
+                
                 var shiftToPosition = _grid.GetCellPosition(index);
                 var capturedIndex = index;
 
-                moveAction.Add(() => new MoveAsync(c.transform, shiftToPosition).Play(c));
+                moveAction.Add(() => _animations.Move(c.transform, shiftToPosition).Play(c), i == 0 ? 0 : 0.1f);
                 setCellAction.Add(() => _grid.SetCell(c, capturedIndex));
 
                 index += shiftDetails.ShiftFrom;
@@ -198,7 +218,7 @@ namespace GameGrid
             var newCell = _spawner.SpawnCell(Vector3.zero);
 
             CurrentTurn.Next(() => _grid.SetCell(newCell, index));
-            CurrentTurn.Next(() => new ScaleAsync(newCell.transform, Vector3.one).Play(newCell));
+            CurrentTurn.Next(() => _animations.Scale(newCell.transform, Vector3.one).Play(newCell));
         }
 
         private void CreateNewTurn()

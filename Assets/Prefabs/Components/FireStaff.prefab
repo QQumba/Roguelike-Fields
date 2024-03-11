@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1404720602549444064}
   - component: {fileID: 5666713425329049132}
   m_Layer: 0
-  m_Name: staff
+  m_Name: Staff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,7 +184,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6324080451623246598}
-  - component: {fileID: 4681391923869819732}
+  - component: {fileID: 8381772959171509911}
   m_Layer: 0
   m_Name: Components
   m_TagString: Untagged
@@ -204,12 +204,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6627419079281903089}
   - {fileID: 3776200483498258615}
   m_Father: {fileID: 4081417741568890389}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4681391923869819732
+--- !u!114 &8381772959171509911
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -218,66 +217,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8223778710204360237}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbc3a1941f364914842add2c4ada664e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pickedUpEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6713560723810761601}
-        m_TargetAssemblyTypeName: Effects.EquipWeaponEffect, Assembly-CSharp
-        m_MethodName: Equip
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!1 &8570117731759077994
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6627419079281903089}
-  - component: {fileID: 6713560723810761601}
-  m_Layer: 0
-  m_Name: EquipWeaponEffect
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6627419079281903089
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8570117731759077994}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6324080451623246598}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6713560723810761601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8570117731759077994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4ee2320f15145daa149ce90f95750d3, type: 3}
+  m_Script: {fileID: 11500000, guid: aadeed2cb1ed40559e4e6cacc70f5cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 2980191296746326576}
@@ -322,7 +262,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1534757340837667590, guid: 218f61e812c20284cb80fd9e9b2b7b09, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1534757340837667590, guid: 218f61e812c20284cb80fd9e9b2b7b09, type: 3}
       propertyPath: m_LocalPosition.x

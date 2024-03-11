@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1733256278084482558}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.98489726, y: 0.063453175, z: 0.03310567}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 5049397761476267325}
   - component: {fileID: 3788796817033214778}
   m_Layer: 0
-  m_Name: sword
+  m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,8 +71,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787445586919411574}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.98489726, y: -0.063453175, z: -0.03310567}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -175,51 +175,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8db399f979d14e98aaeb2d628b80e692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &3482857786011869716
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2108782583541718415}
-  - component: {fileID: 1986632755696854015}
-  m_Layer: 0
-  m_Name: EquipWeaponEffect
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2108782583541718415
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3482857786011869716}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1259057042854282104}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1986632755696854015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3482857786011869716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4ee2320f15145daa149ce90f95750d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weapon: {fileID: 8000718203201290285}
 --- !u!1 &3790358760511307347
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +184,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1259057042854282104}
-  - component: {fileID: 454038075724725034}
+  - component: {fileID: 4036061793851303218}
   m_Layer: 0
   m_Name: Components
   m_TagString: Untagged
@@ -249,12 +204,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2108782583541718415}
   - {fileID: 3520121937605686283}
   m_Father: {fileID: 9087894407923273323}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &454038075724725034
+--- !u!114 &4036061793851303218
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -263,24 +217,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3790358760511307347}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbc3a1941f364914842add2c4ada664e, type: 3}
+  m_Script: {fileID: 11500000, guid: aadeed2cb1ed40559e4e6cacc70f5cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickedUpEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1986632755696854015}
-        m_TargetAssemblyTypeName: Effects.EquipWeaponEffect, Assembly-CSharp
-        m_MethodName: Equip
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  weapon: {fileID: 8000718203201290285}
 --- !u!1 &4547363230949581298
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,7 +270,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5826263113193601807, guid: c55ba86d907c6ea4e88bd510de18d39d, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5826263113193601807, guid: c55ba86d907c6ea4e88bd510de18d39d, type: 3}
       propertyPath: m_LocalPosition.x

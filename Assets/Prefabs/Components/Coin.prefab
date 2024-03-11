@@ -56,7 +56,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2916231544103299741}
-  - component: {fileID: 8113133404619575311}
+  - component: {fileID: 5407611334842902949}
   m_Layer: 0
   m_Name: Components
   m_TagString: Untagged
@@ -75,12 +75,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5132522899746978834}
+  m_Children: []
   m_Father: {fileID: 1859435623919444654}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8113133404619575311
+--- !u!114 &5407611334842902949
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,24 +88,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2398073973625417008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbc3a1941f364914842add2c4ada664e, type: 3}
+  m_Script: {fileID: 11500000, guid: 45a77d6ff19244beb8c8bbb278fe77cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickedUpEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6018144908683391289}
-        m_TargetAssemblyTypeName: Effects.PickUpCoinEffect, Assembly-CSharp
-        m_MethodName: PickUpCoin
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &6308040349960548929
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,49 +217,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8db399f979d14e98aaeb2d628b80e692, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &7753204844095331486
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5132522899746978834}
-  - component: {fileID: 6018144908683391289}
-  m_Layer: 0
-  m_Name: PickUpCoin
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5132522899746978834
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7753204844095331486}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2916231544103299741}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6018144908683391289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7753204844095331486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03f38945f3d84b848049335b1ac5416a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

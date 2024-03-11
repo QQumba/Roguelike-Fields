@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using GameGrid;
 using TurnData.FragmentedTurn;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TurnData
 {
@@ -15,9 +16,9 @@ namespace TurnData
         private readonly Action _onTurnEnded;
 
         private bool _onTurnEndedTriggered;
-        
+
         public event Action TurnFinished;
-        
+
         public TurnContext(Func<IEnumerator, Coroutine> startCoroutine, Action onTurnEnded)
         {
             this.startCoroutine = startCoroutine;
@@ -31,6 +32,22 @@ namespace TurnData
         public void StartTurn()
         {
             ExecuteNext();
+        }
+
+        public void Destroy(Object obj, int secondsDelay = 3)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ITurnContext Next(TurnAction action)
+        {
+            _actions.Enqueue(action);
+            return this;
+        }
+
+        public void Log(string message)
+        {
+            _actions.Enqueue(new TurnAction(() => { }) { DebugMessage = message });
         }
 
         private void ExecuteNext()
@@ -51,23 +68,13 @@ namespace TurnData
 
             action.Finished += ExecuteNext;
 
-            if (action.Message is not null)
+            if (action.DebugMessage is not null)
             {
                 var time = DateTime.Now;
-                Debug.Log($"{time:O}: {action.Message}");
+                Debug.Log($"{time:O}: {action.DebugMessage}");
             }
             
             action.Start(startCoroutine);
-        }
-
-        public void Next(TurnAction action)
-        {
-            _actions.Enqueue(action);
-        }
-
-        public void Log(string message)
-        {
-            _actions.Enqueue(new TurnAction(() => { }) { Message = message });
         }
     }
 }

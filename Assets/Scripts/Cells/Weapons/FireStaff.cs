@@ -2,8 +2,8 @@
 using System.Collections;
 using Animations;
 using Cells.Components;
+using Cells.Components.Interfaces;
 using GameGrid;
-using TurnData;
 using TurnData.FragmentedTurn;
 using UnityEngine;
 using Grid = GameGrid.Grid;
@@ -79,18 +79,18 @@ namespace Cells.Weapons
                 return;
             }
 
-            var enemyComponent = nextCell.GetCellComponent<Enemy>();
+            var damageable = nextCell.GetCellComponent<IDamageable>();
 
-            if (enemyComponent is null)
+            if (damageable is null)
             {
                 return;
             }
 
-            var enemyPosition = grid.GetCellPosition(enemyComponent.Cell);
-            FireProjectile(originalEnemyPosition, enemyPosition);
+            var damageablePosition = grid.GetCellPosition(damageable.Cell);
+            FireProjectile(originalEnemyPosition, damageablePosition);
 
             var damageValue = Damage.Value;
-            CurrentTurn.Next(() => enemyComponent.Damageable.DealDamage(damageValue));
+            CurrentTurn.Next(() => damageable.DealDamage(damageValue));
         }
 
         private void FireProjectile(Vector3 from, Vector3 to)
@@ -98,9 +98,8 @@ namespace Cells.Weapons
             var projectile = Instantiate(projectilePrefab, from, Quaternion.identity);
             var fireBlast = Instantiate(fireBlastPrefab, to, Quaternion.identity);
             
-            // TODO turn context can be responsible for this kind of cleanup
-            StartCoroutine(DestroyProjectile(projectile.gameObject));
-            StartCoroutine(DestroyProjectile(fireBlast.gameObject));
+            Destroy(projectile.gameObject, 2);
+            Destroy(fireBlast.gameObject, 2);
             
             CurrentTurn.Next(() => Move(projectile, to));
             CurrentTurn.Next(() =>
@@ -132,12 +131,6 @@ namespace Cells.Weapons
         public override void BreakWeapon()
         {
             WeaponBroken?.Invoke();
-        }
-
-        private IEnumerator DestroyProjectile(Object objectToDestroy)
-        {
-            yield return new WaitForSeconds(3);
-            Destroy(objectToDestroy);
         }
         
         private IEnumerator Move(Transform projectile, Vector3 targetPosition)

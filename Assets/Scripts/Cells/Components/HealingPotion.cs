@@ -1,15 +1,18 @@
 ﻿using System.Linq;
-using Cells.Components;
-using Events;
+using Cells.Components.Interfaces;
 using UnityEngine;
 using Grid = GameGrid.Grid;
 
-namespace Effects
+namespace Cells.Components
 {
-    public class HealingEffect : MonoBehaviour
+    public class HealingPotion : CellComponent, IPickable
     {
         [SerializeField] private int healingValue;
         [SerializeField] private string healableTag;
+
+        [SerializeField] private ValueProvider healingValueProvider;
+
+        public override string CellTag => "healing-potion";
         
         private Grid _grid;
 
@@ -17,13 +20,13 @@ namespace Effects
         {
             _grid = Grid.Instance;
         }
-
-        public void Heal(CellEventArgs args)
+        
+        public void PickUp()
         {
             // get cell with correct tag and damageable component
             var cell = _grid.Cells.FirstOrDefault(x =>
             {
-                var isDamageable = x.HasCellComponent<Damageable>();
+                var isDamageable = x.HasCellComponent<IHealable>();
                 var hasCorrectTag = x.HasCellTag(healableTag);
                 return isDamageable && hasCorrectTag;
             });
@@ -33,9 +36,9 @@ namespace Effects
                 return;
             }
             
-            var damageable = cell.GetCellComponent<Damageable>();
+            var damageable = cell.GetCellComponent<IHealable>();
 
-            damageable.Heal(healingValue);
+            damageable.ApplyHealing(healingValueProvider.Value);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Cells.Components;
+using Cells.Components.Interfaces;
 using GameGrid;
 
 namespace Cells.Interactions
@@ -7,10 +8,14 @@ namespace Cells.Interactions
     {
         public override void InteractWith(Hero hero)
         {
-            var pickable = Cell.GetCellComponent<Pickable>();
             var controller = GridController.Instance;
             
-            pickable.PickUp();
+            var pickables = Cell.GetCellComponents<IPickable>();
+            foreach (var p in pickables)
+            {
+                p.PickUp();
+            }
+            
             controller.Move(hero.Cell, Cell);
         }
     }

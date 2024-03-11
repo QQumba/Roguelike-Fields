@@ -17,6 +17,9 @@ namespace Game
         private Cell cellPrefab;
 
         [SerializeField]
+        private CellContent emptyContent;
+        
+        [SerializeField]
         private CellContent heroContent;
 
         [SerializeField]
@@ -50,6 +53,11 @@ namespace Game
             return SpawnCellWithContent(heroContent, Vector3.one);
         }
 
+        public Cell SpawnEmptyContent()
+        {
+            return SpawnCellWithContent(emptyContent, Vector3.one);
+        }
+
         public Cell SpawnCell(Vector3? initialScale = null)
         {
             var prefabsToSpawn = spawnerPrefabs.Where(x => x.Spawn).ToArray();
@@ -66,7 +74,8 @@ namespace Game
             var content = Instantiate(cellContent, cell.transform);
 
             var cellRenderer = cell.GetComponent<SpriteRenderer>();
-            cellRenderer.sortingOrder = content.GetSortingOrder() - 1;
+            // need to check
+            cellRenderer.sortingOrder = content.GetSortingOrder(cellRenderer.sortingOrder) - 1;
 
             var components = content.GetCellComponents();
             foreach (var component in components)
@@ -74,6 +83,8 @@ namespace Game
                 cell.AddCellComponent(component);
             }
 
+            cell.name = content.name;
+            
             if (content.TryGetInteraction(out var interaction))
             {
                 cell.AddInteraction(interaction);

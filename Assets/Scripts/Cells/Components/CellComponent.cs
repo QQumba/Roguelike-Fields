@@ -1,10 +1,9 @@
-﻿using Events;
+﻿using Cells.Components.Interfaces;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Cells.Components
 {
-    public abstract class CellComponent : MonoBehaviour
+    public abstract class CellComponent : MonoBehaviour, ICellComponent
     {
         public Cell Cell { get; set; }
 

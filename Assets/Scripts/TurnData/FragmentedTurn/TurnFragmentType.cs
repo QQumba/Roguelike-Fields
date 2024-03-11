@@ -3,6 +3,7 @@
     public enum TurnFragmentType
     {
         Main,
-        EndOfTurn
+        EndOfTurn,
+        Cleanup
     }
 }
