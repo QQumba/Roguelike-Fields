@@ -22,27 +22,5 @@ namespace Animations.AsyncAnimations
         {
             _millisecondsScheduledToWait += milliseconds;
         }
-
-        public async Task Play(IAsyncAnimation asyncAnimation)
-        {
-            _animationsInProgress++;
-
-            if (_millisecondsScheduledToWait > 0)
-            {
-                var timeToWait = _millisecondsScheduledToWait;
-                _millisecondsScheduledToWait -= timeToWait;
-                await Task.Delay(timeToWait);
-            }
-
-            await asyncAnimation.PlayAsync();
-            _animationsInProgress--;
-        }
-
-        public async Task Play(IAsyncAnimation asyncAnimation, Cell cell)
-        {
-            cell.IsAnimated = true;
-            await Play(asyncAnimation);
-            cell.IsAnimated = false;
-        }
     }
 }

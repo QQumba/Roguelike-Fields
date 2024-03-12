@@ -8,6 +8,9 @@ namespace Animations.Factories
         [SerializeField]
         private float baseSpeed = 4;
 
+        [SerializeField]
+        private AnimationCurve moveCurve;
+        
         public static AnimationFactory Instance { get; private set; }
 
         private void Awake()
@@ -19,7 +22,8 @@ namespace Animations.Factories
 
         public IAsyncAnimation Move(Transform target, Vector3 targetPosition, float speedMultiplier = 1)
         {
-            return new MoveAsync(target, targetPosition, speed: baseSpeed * speedMultiplier);
+            return new MoveTest(moveCurve, target, targetPosition, speed: baseSpeed * speedMultiplier);
+            // return new MoveAsync(target, targetPosition, speed: baseSpeed * speedMultiplier);
         }
 
         public IAsyncAnimation Move(Transform target, Vector3 targetPosition, Vector3? initialPosition, float speedMultiplier)

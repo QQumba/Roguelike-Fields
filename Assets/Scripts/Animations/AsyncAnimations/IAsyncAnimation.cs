@@ -6,7 +6,6 @@ namespace Animations.AsyncAnimations
 {
     public interface IAsyncAnimation
     {
-        Task PlayAsync();
         IEnumerator Play();
         IEnumerator Play(Cell cell);
         void RequestStop();

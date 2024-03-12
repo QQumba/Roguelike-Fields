@@ -1,24 +1,28 @@
 ﻿using System.Collections;
 using System.Threading.Tasks;
 using Cells;
+using DefaultNamespace;
 using UnityEngine;
 
 namespace Animations.AsyncAnimations
 {
-    public class MoveAsync : IAsyncAnimation
+    public class MoveTest : IAsyncAnimation
     {
         private readonly Transform _target;
         private readonly Vector3 _initialPosition;
+        private readonly AnimationCurve _curve;
         private readonly Vector3 _targetPosition;
         private readonly float _speed;
 
-        public MoveAsync(
+        public MoveTest(
+            AnimationCurve curve,
             Transform target,
             Vector3 targetPosition,
             Vector3? initialPosition = null,
             float speed = 4)
         {
             _initialPosition = initialPosition ?? target.position;
+            _curve = curve;
             _targetPosition = targetPosition;
             _target = target;
             _speed = speed;
@@ -28,7 +32,7 @@ namespace Animations.AsyncAnimations
         {
             for (float i = 0; i < 1; i += Time.deltaTime * _speed)
             {
-                _target.position = Vector3.Lerp(_initialPosition, _targetPosition, i);
+                _target.position = VectorHelpers.LerpUnclamped(_initialPosition, _targetPosition, _curve.Evaluate(i));
                 yield return null;
             }
 
