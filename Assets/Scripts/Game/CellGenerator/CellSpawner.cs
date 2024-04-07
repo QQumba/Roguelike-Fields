@@ -15,20 +15,11 @@ namespace Game.CellGenerator
     /// </summary>
     public class CellSpawner : MonoBehaviour
     {
-        [SerializeField]
-        private Cell cellPrefab;
-
-        [SerializeField]
-        private CellContent emptyContent;
-        
-        [SerializeField]
-        private CellContent heroContent;
-
-        [SerializeField]
-        private CellContent[] prefabs;
-
-        [SerializeField]
-        private CellSpawnerPrefab[] spawnerPrefabs;
+        [SerializeField] private Cell cellPrefab;
+        [SerializeField] private CellContent emptyContent;
+        [SerializeField] private CellContent heroContent;
+        [SerializeField] private CellContent[] prefabs;
+        [SerializeField] private CellSpawnerPrefab[] spawnerPrefabs;
 
         public static CellSpawner Instance;
 
@@ -69,11 +60,12 @@ namespace Game.CellGenerator
 
             return SpawnCellWithContent(cellContent, initialScale.Value);
         }
-        
+
         public Cell SpawnCell(CellSpawnerState state, Vector3? initialScale = null)
         {
-            var criteria = state.GetMaximumAvailableCriteria(); 
-            Debug.Log($"trying to spawn cell with criteria: cellType {criteria.CellType}, powerLevel: {criteria.PowerLevel}");
+            var criteria = state.GetMaximumAvailableCriteria();
+            Debug.Log(
+                $"trying to spawn cell with criteria: cellType {criteria.CellType}, powerLevel: {criteria.PowerLevel}");
             var cellContent = GetSatisfyingContent(criteria);
             initialScale ??= Vector3.one;
 
@@ -88,7 +80,8 @@ namespace Game.CellGenerator
             var i = 0;
             while (prefabsToSpawn.Length == 0 && i < maxIterations)
             {
-                prefabsToSpawn = spawnerPrefabs.Where(x => x.Spawn && x.Prefab.SpawnCriteria.Satisfies(criteria)).ToArray();
+                prefabsToSpawn = spawnerPrefabs.Where(x => x.Spawn && x.Prefab.SpawnCriteria.Satisfies(criteria))
+                    .ToArray();
                 criteria = criteria.Soften();
                 i++;
             }
@@ -100,15 +93,15 @@ namespace Game.CellGenerator
             {
                 sb.Append($"\n[{x.name}, {x.SpawnCriteria.CellType}, {x.SpawnCriteria.PowerLevel}]");
             }
-            
+
             Debug.Log(sb.ToString());
-            
+
             // no criteria satisfied, spawn random cell
             if (prefabsToSpawn.Length == 0)
             {
                 prefabsToSpawn = spawnerPrefabs.Where(x => x.Spawn).ToArray();
             }
-            
+
             var index = Random.Range(0, prefabsToSpawn.Length);
             return prefabsToSpawn[index].Prefab;
         }
@@ -117,6 +110,7 @@ namespace Game.CellGenerator
         {
             var cell = SpawnEmptyCell(initialScale);
             var content = Instantiate(contentPrefab, cell.transform);
+            content.name = contentPrefab.name;
 
             var cellRenderer = cell.GetComponent<SpriteRenderer>();
             // need to check
@@ -129,7 +123,7 @@ namespace Game.CellGenerator
             }
 
             cell.name = content.name;
-            
+
             if (content.TryGetInteraction(out var interaction))
             {
                 cell.AddInteraction(interaction);
@@ -159,7 +153,7 @@ namespace Game.CellGenerator
                 {
                     continue;
                 }
-                
+
                 var tags = cell.GetCellTags();
 
                 foreach (var t in tags)
@@ -179,11 +173,11 @@ namespace Game.CellGenerator
             {
                 return null;
             }
-            
+
             var min = tagNumber
                 .Where(x => x.Key != CellTags.Hero)
                 .Min(x => x.Value);
-            
+
             return tagNumber.First(x => x.Value == min).Key;
         }
     }

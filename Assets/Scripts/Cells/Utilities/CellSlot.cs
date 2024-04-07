@@ -38,6 +38,7 @@ namespace Cells
             
             cellTransform.SetParent(transform);
             cellTransform.localPosition = Vector3.zero;
+            name = cell.name;
             
             Cell = cell;
         }

@@ -13,21 +13,18 @@ namespace Effects
         private CellContent[] cellPrefabs;
 
         private GridController _gridController;
-        private CellSpawner _cellSpawner;
 
         private void Start()
         {
             _gridController = GridController.Instance;
-            _cellSpawner = CellSpawner.Instance;
         }
 
         public void ReplaceCell(CellEventArgs e)
         {
             var randomIndex = Random.Range(0, cellPrefabs.Length);
             var cellPrefab = cellPrefabs[randomIndex];
-            
-            var newCell = _cellSpawner.SpawnCellWithContent(cellPrefab, Vector3.one);
-            _gridController.Replace(e.Cell, newCell);
+
+            _gridController.ReplaceWithContent(e.Cell, cellPrefab);
         }
     }
 }

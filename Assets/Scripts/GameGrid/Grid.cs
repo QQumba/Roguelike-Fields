@@ -10,11 +10,9 @@ namespace GameGrid
 {
     public class Grid : MonoBehaviour
     {
-        [SerializeField]
-        private int height = 3;
-
-        [SerializeField]
-        private int width = 3;
+        [SerializeField] private int height = 3;
+        [SerializeField] private int width = 3;
+        [SerializeField] private Transform gameField;
 
         [FormerlySerializedAs("wrapperPrefab")] [SerializeField]
         private CellSlot slotPrefab;
@@ -22,11 +20,11 @@ namespace GameGrid
         private CellSlot[,] _cells;
 
         public static Grid Instance { get; private set; }
-        
+
         public IEnumerable<Cell> Cells => Flatten();
 
         public Cell Hero => Cells.Where(x => x != null).First(x => x.GetCellComponent<Hero>() != null);
-        
+
         public int Height => height;
 
         public int Width => width;
@@ -40,6 +38,9 @@ namespace GameGrid
             }
 
             Instance = this;
+
+            gameField ??= transform;
+
             InitializeCellSlots();
         }
 
@@ -103,7 +104,7 @@ namespace GameGrid
             var index = IndexOf(cell);
             return GetAdjacentCells(index);
         }
-        
+
         public List<Cell> GetAdjacentCells(Vector2Int index)
         {
             var cells = new List<Cell>(4);
@@ -190,7 +191,7 @@ namespace GameGrid
             {
                 for (int y = 0; y < height; y++)
                 {
-                    _cells[x, y] = Instantiate(slotPrefab, GetCellPosition(x, y), Quaternion.identity);
+                    _cells[x, y] = Instantiate(slotPrefab, GetCellPosition(x, y), Quaternion.identity, transform);
                 }
             }
         }
@@ -200,7 +201,7 @@ namespace GameGrid
             var index = IndexOf(cell);
             return GetCellPosition(index.x, index.y);
         }
-        
+
         public Vector2 GetCellPosition(Vector2Int index)
         {
             return GetCellPosition(index.x, index.y);

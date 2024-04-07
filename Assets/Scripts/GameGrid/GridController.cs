@@ -5,7 +5,6 @@ using System.Linq;
 using Animations.Factories;
 using Cells;
 using Game.CellGenerator;
-using Newtonsoft.Json;
 using TurnData;
 using TurnData.FragmentedTurn;
 using UnityEngine;
@@ -26,10 +25,10 @@ namespace GameGrid
         private AnimationFactory _animations;
 
         private int _powerLevel = 10;
-        
+
         [SerializeField]
         private UnityEvent turnFinishedEvent;
-        
+
         public static GridController Instance { get; private set; }
 
         public ITurnContext CurrentTurn { get; private set; }
@@ -50,7 +49,7 @@ namespace GameGrid
 
             _animations = AnimationFactory.Instance;
         }
-        
+
         public void Move(Cell a, Cell b)
         {
             var indexOfA = _grid.IndexOf(a);
@@ -84,13 +83,12 @@ namespace GameGrid
 
         public void ReplaceWithContent(Cell cell, CellContent contentPrefab)
         {
-            var newCell = _spawner.SpawnCellWithContent(contentPrefab, Vector3.one);
+            var newCell = _spawner.SpawnCellWithContent(contentPrefab, Vector3.zero);
             Replace(cell, newCell);
         }
-        
-        public void Replace(Cell a, Cell b)
+
+        private void Replace(Cell a, Cell b)
         {
-            b.gameObject.SetActive(false);
             var index = _grid.IndexOf(a);
             var position = _grid.GetCellPosition(index);
             var emptyCell = _spawner.SpawnEmptyCell(Vector3.one);
@@ -113,7 +111,7 @@ namespace GameGrid
             CurrentTurn.Next(() =>
             {
                 Destroy(emptyCell.gameObject);
-                b.gameObject.SetActive(true);
+                b.transform.localScale = Vector3.one;
             });
 
             CurrentTurn.Next(() => _animations.Rotate(b.transform, 270, 360, rotationSpeed * 2).Play(b));
@@ -135,15 +133,15 @@ namespace GameGrid
 
             var indexOfA = _grid.IndexOf(a);
             var indexOfB = _grid.IndexOf(b);
-            
+
             CurrentTurn.Next(shrink);
             CurrentTurn.Next(() =>
             {
-               _grid.SetCell(a, indexOfB); 
-               _grid.SetCell(b, indexOfA); 
+                _grid.SetCell(a, indexOfB);
+                _grid.SetCell(b, indexOfA);
             });
             CurrentTurn.Next(grow);
-        }   
+        }
 
         private void MoveCell(Cell a, Cell b)
         {
@@ -162,7 +160,7 @@ namespace GameGrid
             for (var i = 0; i < shiftDetails.Cells.Count; i++)
             {
                 var c = shiftDetails.Cells[i];
-                
+
                 var shiftToPosition = _grid.GetCellPosition(index);
                 var capturedIndex = index;
 
@@ -190,16 +188,16 @@ namespace GameGrid
                 .Where(x => x is not null)
                 .Select(x => x.SpawnCriteria)
                 .ToList();
-            
+
             var state = new CellSpawnerState
             {
                 CellSpawnCriteria = criteria,
                 MaxPowerLevel = _powerLevel
             };
-            
+
             return state;
         }
-        
+
         private void CreateNewTurn()
         {
             if (CurrentTurn != null)
@@ -208,11 +206,11 @@ namespace GameGrid
                 CurrentTurn.TurnFinished -= turnFinishedEvent.Invoke;
 
                 TurnCount++;
-                
+
                 // why 2?
                 _powerLevel += 2;
             }
-            
+
             var turnContext = new FragmentedTurnContext(StartCoroutine);
             turnContext.MainFragmentCompleted += () =>
             {
@@ -220,7 +218,7 @@ namespace GameGrid
                 {
                     turnContext.NextFragment(new TurnAction(() => cell.OnTurnEnded()));
                 }
- 
+
                 turnContext.ContinueTurn();
             };
             turnContext.TurnFinished += CreateNewTurn;

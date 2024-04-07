@@ -189,7 +189,6 @@ GameObject:
   - component: {fileID: 1259057042854282104}
   - component: {fileID: 4036061793851303218}
   - component: {fileID: 8617255771742362283}
-  - component: {fileID: 3041680870414557073}
   m_Layer: 0
   m_Name: Components
   m_TagString: Untagged
@@ -245,7 +244,7 @@ MonoBehaviour:
   diedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3041680870414557073}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Effects.ReplaceCellEffect, Assembly-CSharp
         m_MethodName: ReplaceCell
         m_Mode: 0
@@ -260,19 +259,7 @@ MonoBehaviour:
   healingAppliedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3041680870414557073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3790358760511307347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d25046ebae6b410ba8793b17cafac5a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cellPrefab: {fileID: 4161024300577302309, guid: 7512c2d2544c89246938259476aa090c, type: 3}
+  dropPrefab: {fileID: 0}
 --- !u!1 &4547363230949581298
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,7 +303,7 @@ GameObject:
   - component: {fileID: 7320418104238542045}
   - component: {fileID: 5150507782376654189}
   m_Layer: 0
-  m_Name: Value
+  m_Name: DamageValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

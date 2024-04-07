@@ -1,6 +1,7 @@
 ﻿using Cells.Components.Interfaces;
 using Events;
 using GameGrid;
+using Global;
 using Tags;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,11 +13,16 @@ namespace Cells.Components
         [SerializeField] private ValueProvider health;
         [SerializeField] private UnityEvent<CellEventArgs> diedEvent;
         [SerializeField] private UnityEvent<CellEventArgs> healingAppliedEvent;
-        [SerializeField] private CellContent dropPrefab;        
-        
+        [SerializeField] private CellContent dropPrefab;
+
         public override string CellTag => CellTags.Damageable;
 
         public ValueProvider Health => health;
+
+        private void Start()
+        {
+            dropPrefab ??= Defaults.EmptyContent;
+        }
 
         public int DealDamage(int damage)
         {
@@ -24,12 +30,12 @@ namespace Cells.Components
             Health.Value -= damage;
             if (Health.Value <= 0)
             {
-                Eliminate();    
+                Eliminate();
             }
 
             return damageDealt;
         }
-        
+
         public int ApplyHealing(int healing)
         {
             var heathRestored = Mathf.Min(healing, Health.MaxValue - Health.Value);
@@ -47,7 +53,7 @@ namespace Cells.Components
             {
                 return;
             }
-            
+
             var controller = GridController.Instance;
             controller.ReplaceWithContent(Cell, dropPrefab);
         }
