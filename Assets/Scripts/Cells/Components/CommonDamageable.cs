@@ -1,5 +1,6 @@
 ﻿using Cells.Components.Interfaces;
 using Events;
+using GameGrid;
 using Tags;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,14 +9,10 @@ namespace Cells.Components
 {
     public class CommonDamageable : CellComponent, IDamageable, IHealable
     {
-        [SerializeField]
-        private ValueProvider health;
-
-        [SerializeField]
-        private UnityEvent<CellEventArgs> diedEvent;
-
-        [SerializeField]
-        private UnityEvent<CellEventArgs> healingAppliedEvent;
+        [SerializeField] private ValueProvider health;
+        [SerializeField] private UnityEvent<CellEventArgs> diedEvent;
+        [SerializeField] private UnityEvent<CellEventArgs> healingAppliedEvent;
+        [SerializeField] private CellContent dropPrefab;        
         
         public override string CellTag => CellTags.Damageable;
 
@@ -45,6 +42,14 @@ namespace Cells.Components
         public void Eliminate()
         {
             diedEvent.Invoke(new CellEventArgs(Cell));
+
+            if (dropPrefab is null)
+            {
+                return;
+            }
+            
+            var controller = GridController.Instance;
+            controller.ReplaceWithContent(Cell, dropPrefab);
         }
     }
 }

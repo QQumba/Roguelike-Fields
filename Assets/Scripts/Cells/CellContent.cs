@@ -2,12 +2,17 @@
 using System.Linq;
 using Cells.Components;
 using Cells.Interactions;
+using Game.CellGenerator;
 using UnityEngine;
 
 namespace Cells
 {
     public class CellContent : MonoBehaviour
     {
+        [SerializeField] private CellSpawnCriteria spawnCriteria;
+
+        public CellSpawnCriteria SpawnCriteria => spawnCriteria;
+        
         public IEnumerable<CellComponent> GetCellComponents()
         {
             var components = GetComponentsInChildren<CellComponent>();

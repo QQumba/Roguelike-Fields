@@ -121,7 +121,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 53ae6c9d583044744900577e955970d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -385,9 +385,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4060c50bc51740e9a14389dce6bdcf1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyAttackedEvent:
-    m_PersistentCalls:
-      m_Calls: []
   weaponDamageValueProvider: {fileID: 3452147775389933171}
 --- !u!114 &4797485710905651047
 MonoBehaviour:
@@ -474,7 +471,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8329347385180197400}
   serializedVersion: 8
-  lengthInSec: 0.5
+  lengthInSec: 0.2
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -1300,7 +1297,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 40
       minScalar: 10
       maxCurve:
         serializedVersion: 2

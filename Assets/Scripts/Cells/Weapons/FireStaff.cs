@@ -13,26 +13,12 @@ namespace Cells.Weapons
 {
     public class FireStaff : Weapon
     {
-        [SerializeField]
-        private Transform projectilePrefab;
-
-        [SerializeField]
-        private ParticleSystem fireBlastPrefab;
-        
-        [SerializeField]
-        private float projectileSpeed = 4;
-
-        [SerializeField]
-        private int damage = 8;
-
-        [SerializeField]
-        private AnimationCurve projectileCurve;
-
-        [SerializeField]
-        private float projectileAcceleration = 10f;
-        
-        [SerializeField]
-        private float initialSpeed = 5f;
+        [SerializeField] private Transform projectilePrefab;
+        [SerializeField] private ParticleSystem fireBlastPrefab;
+        [SerializeField] private float projectileSpeed = 4;
+        [SerializeField] private AnimationCurve projectileCurve;
+        [SerializeField] private float projectileAcceleration = 10f;
+        [SerializeField] private float initialSpeed = 5f;
         
         private GridController _gridController;
 
@@ -112,7 +98,7 @@ namespace Cells.Weapons
         // TODO move up to base class
         public override void BindDamageValueProvider(ValueProvider valueProvider)
         {
-            valueProvider.Value = damage;
+            valueProvider.Value = BaseDamage;
             Damage = valueProvider;
         }
 
@@ -121,7 +107,7 @@ namespace Cells.Weapons
         {
             if (weapon is FireStaff sword)
             {
-                Damage.Value += sword.damage / 2;
+                Damage.Value += sword.BaseDamage / 2;
                 return true;
             }
 

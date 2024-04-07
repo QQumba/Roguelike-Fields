@@ -13,7 +13,7 @@ namespace Cells.Interactions
             if (hero.Weapon is null)
             {
                 var enemyHealth = enemy.Health.Value;
-                hero.DamageableLegacy.DealDamage(enemyHealth);
+                hero.Damageable.DealDamage(enemyHealth);
                 controller.Move(hero.Cell, Cell);
                 return;
             }

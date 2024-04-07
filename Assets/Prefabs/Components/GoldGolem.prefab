@@ -48,6 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c6eaac3688c46aba93288f50776e247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnCriteria:
+    cellType: 1
+    powerLevel: 60
 --- !u!1 &3773196706093647632
 GameObject:
   m_ObjectHideFlags: 0

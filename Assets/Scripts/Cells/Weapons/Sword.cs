@@ -11,14 +11,8 @@ namespace Cells.Weapons
 {
     public class Sword : Weapon
     {
-        [SerializeField]
-        private Transform slashPrefab;
-
-        [SerializeField]
-        private float speed = 4;
-
-        [SerializeField]
-        private int damage = 7;
+        [SerializeField] private Transform slashPrefab;
+        [SerializeField] private float speed = 4;
 
         private GridController _gridController;
 
@@ -53,7 +47,7 @@ namespace Cells.Weapons
 
         public override void BindDamageValueProvider(ValueProvider valueProvider)
         {
-            valueProvider.Value = damage;
+            valueProvider.Value = BaseDamage;
             Damage = valueProvider;
         }
 
@@ -61,7 +55,7 @@ namespace Cells.Weapons
         {
             if (weapon is Sword sword)
             {
-                Damage.Value += sword.damage / 2;
+                Damage.Value += sword.BaseDamage / 2;
                 return true;
             }
 

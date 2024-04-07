@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Cells;
 using Tags;
 using UnityEngine;
 using Grid = GameGrid.Grid;
 using Random = UnityEngine.Random;
 
-namespace Game
+namespace Game.CellGenerator
 {
     /// <summary>
     /// Allow to spawn new cells. 
@@ -67,11 +69,54 @@ namespace Game
 
             return SpawnCellWithContent(cellContent, initialScale.Value);
         }
+        
+        public Cell SpawnCell(CellSpawnerState state, Vector3? initialScale = null)
+        {
+            var criteria = state.GetMaximumAvailableCriteria(); 
+            Debug.Log($"trying to spawn cell with criteria: cellType {criteria.CellType}, powerLevel: {criteria.PowerLevel}");
+            var cellContent = GetSatisfyingContent(criteria);
+            initialScale ??= Vector3.one;
 
-        public Cell SpawnCellWithContent(CellContent cellContent, Vector3 initialScale)
+            return SpawnCellWithContent(cellContent, initialScale.Value);
+        }
+
+        private CellContent GetSatisfyingContent(CellSpawnCriteria criteria)
+        {
+            const int maxIterations = 100;
+            var prefabsToSpawn = Array.Empty<CellSpawnerPrefab>();
+
+            var i = 0;
+            while (prefabsToSpawn.Length == 0 && i < maxIterations)
+            {
+                prefabsToSpawn = spawnerPrefabs.Where(x => x.Spawn && x.Prefab.SpawnCriteria.Satisfies(criteria)).ToArray();
+                criteria = criteria.Soften();
+                i++;
+            }
+
+            var dbg = prefabsToSpawn.Select(x => new { x.Prefab.name, x.Prefab.SpawnCriteria });
+
+            var sb = new StringBuilder("Prefabs to spawn:");
+            foreach (var x in dbg)
+            {
+                sb.Append($"\n[{x.name}, {x.SpawnCriteria.CellType}, {x.SpawnCriteria.PowerLevel}]");
+            }
+            
+            Debug.Log(sb.ToString());
+            
+            // no criteria satisfied, spawn random cell
+            if (prefabsToSpawn.Length == 0)
+            {
+                prefabsToSpawn = spawnerPrefabs.Where(x => x.Spawn).ToArray();
+            }
+            
+            var index = Random.Range(0, prefabsToSpawn.Length);
+            return prefabsToSpawn[index].Prefab;
+        }
+
+        public Cell SpawnCellWithContent(CellContent contentPrefab, Vector3 initialScale)
         {
             var cell = SpawnEmptyCell(initialScale);
-            var content = Instantiate(cellContent, cell.transform);
+            var content = Instantiate(contentPrefab, cell.transform);
 
             var cellRenderer = cell.GetComponent<SpriteRenderer>();
             // need to check
@@ -89,6 +134,8 @@ namespace Game
             {
                 cell.AddInteraction(interaction);
             }
+
+            cell.SetSpawnCriteria(content.SpawnCriteria);
 
             return cell;
         }

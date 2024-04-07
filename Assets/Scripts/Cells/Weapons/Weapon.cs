@@ -8,7 +8,9 @@ namespace Cells.Weapons
     {
         public abstract event Action WeaponBroken;
         
-        public ValueProvider Damage { get; protected set; }
+        public int BaseDamage { get; set; }
+        
+        protected ValueProvider Damage { get; set; }
         
         public abstract void Attack(Enemy enemy);
 

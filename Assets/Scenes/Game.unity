@@ -229,19 +229,19 @@ MonoBehaviour:
     spawn: 1
     maxCount: 99
   - prefab: {fileID: 4161024300577302309, guid: 8f989b64123c3844eb9572ee901ac30e, type: 3}
-    spawn: 0
+    spawn: 1
     maxCount: 99
   - prefab: {fileID: 5882218215079035460, guid: 91d633c4f19336a4ab3e29760cc10c24, type: 3}
-    spawn: 0
+    spawn: 1
     maxCount: 99
   - prefab: {fileID: 6253117982367767464, guid: d40c9881c09717d4e9219eeb012d59be, type: 3}
-    spawn: 0
+    spawn: 1
     maxCount: 99
   - prefab: {fileID: 4161024300577302309, guid: 518559df2f1e16948a6e51718383bbe7, type: 3}
-    spawn: 0
+    spawn: 1
     maxCount: 99
   - prefab: {fileID: 7803166862862941185, guid: cd03f761aa5c72c49a858f13e711499d, type: 3}
-    spawn: 0
+    spawn: 1
     maxCount: 99
   - prefab: {fileID: 469710071448576452, guid: fb8abc250b8aff84db4eb70cede2f7cc, type: 3}
     spawn: 1
@@ -601,8 +601,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2837d0fa8d84bf5ab342a1807b46b69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 6
+  baseSpeed: 3
   moveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.0014038086
+      inSlope: 3.442472
+      outSlope: 3.442472
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.02152204
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.23215353
+      outSlope: -0.23215353
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.052169383
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  shrinkCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  growCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3

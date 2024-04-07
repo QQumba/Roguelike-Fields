@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Animations.AsyncAnimations
 {
-    public class MoveTest : IAsyncAnimation
+    public class MoveWithCurve : IAsyncAnimation
     {
         private readonly Transform _target;
         private readonly Vector3 _initialPosition;
@@ -14,7 +14,7 @@ namespace Animations.AsyncAnimations
         private readonly Vector3 _targetPosition;
         private readonly float _speed;
 
-        public MoveTest(
+        public MoveWithCurve(
             AnimationCurve curve,
             Transform target,
             Vector3 targetPosition,

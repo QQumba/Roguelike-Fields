@@ -360,6 +360,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  healingAppliedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &9186887158292829706
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,6 +411,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c6eaac3688c46aba93288f50776e247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnCriteria:
+    cellType: 1
+    powerLevel: 0
 --- !u!1001 &4808280226260575349
 PrefabInstance:
   m_ObjectHideFlags: 0

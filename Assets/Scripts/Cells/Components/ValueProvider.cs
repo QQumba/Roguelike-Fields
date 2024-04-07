@@ -1,5 +1,6 @@
 ﻿using System;
 using Events;
+using Misc;
 using Tags;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,23 +13,62 @@ namespace Cells.Components
     /// </summary>
     public class ValueProvider : CellComponent
     {
-        [SerializeField]
-        private int currentValue = 4;
+        [SerializeField] private int currentValue = 4;
 
-        [SerializeField] private int maxValue = 4;
-        [SerializeField] private int minValue = 0;
+        [SerializeField] private int maxValue = -1;
+        [SerializeField] private int minValue = -1;
 
         [SerializeField] private UnityEvent<ValueChangedEventArgs> valueChangedEvent;
         [SerializeField] private UnityEvent<ValueChangedEventArgs> valueInitializedEvent;
         [SerializeField] private UnityEvent valueDisposedEvent;
+
+        [SerializeField] private ValuePresenter presenter;
         
-        public event Action<ValueChangedEventArgs> ValueChanged;
+        private event Action<ValueChangedEventArgs> ValueChanged;
+        private event Action<ValueChangedEventArgs> ValueInitialized;
+        private event Action ValueDisposed;
 
         public override string CellTag => CellTags.HasHealth;
 
         protected void Awake()
         {
-            ValueChanged += valueChangedEvent.Invoke;
+            if (minValue < 0)
+            {
+                minValue = 0;
+            }
+
+            if (maxValue < 0)
+            {
+                maxValue = currentValue;
+            }
+
+            ValueChanged += args =>
+            {
+                if (presenter is not null)
+                {
+                    presenter.UpdateValue(args);
+                }
+
+                valueChangedEvent.Invoke(args);
+            };
+            ValueInitialized += args =>
+            {
+                if (presenter is not null)
+                {
+                    presenter.UpdateValue(args);
+                }
+
+                valueInitializedEvent.Invoke(args);
+            };
+            ValueDisposed += () =>
+            {
+                if (presenter is not null)
+                {
+                    presenter.HideValue();
+                }
+
+                valueDisposedEvent.Invoke();
+            };
         }
 
         private void Start()
@@ -86,12 +126,12 @@ namespace Cells.Components
                 MaxValue = MaxValue
             };
 
-            valueInitializedEvent?.Invoke(args);
+            ValueInitialized?.Invoke(args);
         }
 
         public void Dispose()
         {
-            valueDisposedEvent?.Invoke();
+            ValueDisposed?.Invoke();
         }
     }
 }

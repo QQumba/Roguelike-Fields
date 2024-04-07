@@ -6,17 +6,10 @@ namespace Cells.Components
 {
     public class Trap : CellComponent, IPickable
     {
-        [SerializeField]
-        private int damage = 4;
-
-        [SerializeField]
-        private Sprite trapActiveSprite;
-        
-        [SerializeField]
-        private Sprite trapInactiveSprite;
-
-        [SerializeField]
-        private SpriteRenderer trapSpriteRenderer;
+        [SerializeField] private ValueProvider damageValueProvider;
+        [SerializeField] private Sprite trapActiveSprite;
+        [SerializeField] private Sprite trapInactiveSprite;
+        [SerializeField] private SpriteRenderer trapSpriteRenderer;
         
         private bool _active = true;
 
@@ -39,7 +32,7 @@ namespace Cells.Components
             
             if (_active)
             {
-                hero.DamageableLegacy.DealDamage(damage);
+                hero.Damageable.DealDamage(damageValueProvider.Value);
             }
         }
     }

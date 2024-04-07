@@ -2,7 +2,7 @@
 using Cells;
 using UnityEngine;
 
-namespace Game
+namespace Game.CellGenerator
 {
     [Serializable]
     public class CellSpawnerPrefab

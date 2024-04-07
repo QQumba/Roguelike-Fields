@@ -1,5 +1,6 @@
 ﻿using Cells;
 using Game;
+using Game.CellGenerator;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,6 +14,7 @@ namespace GameGrid
     public class GridInitializer : MonoBehaviour
     {
         private Grid _grid;
+        private GridController _gridController;
         private CellSpawner _spawner;
         
         public static GridInitializer Instance { get; private set; }
@@ -20,6 +22,7 @@ namespace GameGrid
         private void Awake()
         {
             _grid = GetComponent<Grid>();
+            _gridController = GetComponent<GridController>();
             _spawner = GetComponent<CellSpawner>();
          
             Instance = this;
@@ -46,7 +49,7 @@ namespace GameGrid
                     }
                     else
                     {
-                        cell = _spawner.SpawnCell();
+                        cell = _spawner.SpawnCell(_gridController.GetSpawnerState());
                     }
 
                     _grid.SetCell(cell, x, y);

@@ -12,7 +12,7 @@ namespace Cells.Components
         
         public Weapon Weapon { get; private set; }
 
-        public IDamageable DamageableLegacy => Cell.GetCellComponent<IDamageable>();
+        public IDamageable Damageable => Cell.GetCellComponent<IDamageable>();
 
         public override string CellTag => CellTags.Hero;
 

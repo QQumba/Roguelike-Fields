@@ -1,6 +1,7 @@
 ﻿using Cells;
 using Events;
 using Game;
+using Game.CellGenerator;
 using GameGrid;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ namespace Effects
             var cellPrefab = cellPrefabs[randomIndex];
             
             var newCell = _cellSpawner.SpawnCellWithContent(cellPrefab, Vector3.one);
-            _gridController.ReplaceWithFlip(e.Cell, newCell);
+            _gridController.Replace(e.Cell, newCell);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using Cells.Components;
 using Cells.Components.Interfaces;
 using Cells.Interactions;
+using Game.CellGenerator;
 using GameGrid;
 using UnityEngine;
 
@@ -23,6 +24,8 @@ namespace Cells
         /// Currently used to control hover animation.
         /// </summary>
         public bool IsAnimated { get; set; }
+        
+        public CellSpawnCriteria SpawnCriteria { get; private set; }
 
         private void Start()
         {
@@ -95,6 +98,11 @@ namespace Cells
         {
             var spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.color = yes ? Color.cyan : Color.white;
+        }
+
+        public void SetSpawnCriteria(CellSpawnCriteria contentSpawnCriteria)
+        {
+            SpawnCriteria = contentSpawnCriteria;
         }
     }
 }
