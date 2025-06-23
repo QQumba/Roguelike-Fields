@@ -68,8 +68,8 @@ namespace GameGrid
 
             var shiftDetails = _grid.GetRandomShiftDetails(index, CurrentTurn.TurnDirection);
 
-            CurrentTurn.Next(() => _animations.Shrink(cell.transform, Vector3.zero).Play(cell));
-            CurrentTurn.Next(() => _grid.RemoveCell(cell));
+            CurrentTurn.AddAction(() => _animations.Shrink(cell.transform, Vector3.zero).Play(cell));
+            CurrentTurn.AddAction(() => _grid.RemoveCell(cell));
 
             ShiftCells(index, shiftDetails);
             SpawnCell(shiftDetails.LastCellIndex);
@@ -84,7 +84,7 @@ namespace GameGrid
         public void ReplaceWithContent(Cell cell, CellContent contentPrefab)
         {
             var newCell = _spawner.SpawnCellWithContent(contentPrefab, Vector3.zero);
-            Replace(cell, newCell);
+            ReplaceShrinkGrow(cell, newCell);
         }
 
         private void Replace(Cell a, Cell b)
@@ -94,27 +94,42 @@ namespace GameGrid
             var emptyCell = _spawner.SpawnEmptyCell(Vector3.one);
             const float rotationSpeed = 1f;
 
-            CurrentTurn.Next(() => _animations.Rotate(a.transform, 0, 90, rotationSpeed * 2).Play(a));
+            CurrentTurn.AddAction(() => _animations.Rotate(a.transform, 0, 90, rotationSpeed * 2).Play(a));
 
-            CurrentTurn.Next(() =>
+            CurrentTurn.AddAction(() =>
             {
                 _grid.RemoveCell(a);
                 _grid.SetCell(b, index);
             });
 
-            CurrentTurn.Next(() =>
+            CurrentTurn.AddAction(() =>
             {
                 emptyCell.transform.position = position;
                 return _animations.Rotate(emptyCell.transform, 90, 270, rotationSpeed).Play(emptyCell);
             });
 
-            CurrentTurn.Next(() =>
+            CurrentTurn.AddAction(() =>
             {
                 Destroy(emptyCell.gameObject);
                 b.transform.localScale = Vector3.one;
             });
 
-            CurrentTurn.Next(() => _animations.Rotate(b.transform, 270, 360, rotationSpeed * 2).Play(b));
+            CurrentTurn.AddAction(() => _animations.Rotate(b.transform, 270, 360, rotationSpeed * 2).Play(b));
+        }
+
+        private void ReplaceShrinkGrow(Cell a, Cell b)
+        {
+            var index = _grid.IndexOf(a);
+
+            CurrentTurn.AddAction(() => _animations.Shrink(a.transform, Vector3.zero).Play(a));
+
+            CurrentTurn.AddAction(() =>
+            {
+                _grid.RemoveCell(a);
+                _grid.SetCell(b, index);
+            });
+
+            CurrentTurn.AddAction(() => _animations.Grow(b.transform, Vector3.one).Play(b));
         }
 
         public void SwapCells(Cell a, Cell b)
@@ -135,7 +150,7 @@ namespace GameGrid
             var indexOfB = _grid.IndexOf(b);
 
             CurrentTurn.Next(shrink);
-            CurrentTurn.Next(() =>
+            CurrentTurn.AddAction(() =>
             {
                 _grid.SetCell(a, indexOfB);
                 _grid.SetCell(b, indexOfA);
@@ -147,10 +162,10 @@ namespace GameGrid
         {
             var indexOfB = _grid.IndexOf(b);
 
-            CurrentTurn.Next(() => _animations.Shrink(b.transform, Vector3.zero).Play(b));
-            CurrentTurn.Next(() => _grid.RemoveCell(b));
-            CurrentTurn.Next(() => _animations.Move(a.transform, _grid.GetCellPosition(indexOfB)).Play(a));
-            CurrentTurn.Next(() => _grid.SetCell(a, indexOfB));
+            CurrentTurn.AddAction(() => _animations.Shrink(b.transform, Vector3.zero).Play(b));
+            CurrentTurn.AddAction(() => _grid.RemoveCell(b));
+            CurrentTurn.AddAction(() => _animations.Move(a.transform, _grid.GetCellPosition(indexOfB)).Play(a));
+            CurrentTurn.AddAction(() => _grid.SetCell(a, indexOfB));
         }
 
         private void ShiftCells(Vector2Int index, CellShiftDetails shiftDetails)
@@ -178,8 +193,8 @@ namespace GameGrid
         {
             var newCell = _spawner.SpawnCell(GetSpawnerState(), Vector3.zero);
 
-            CurrentTurn.Next(() => _grid.SetCell(newCell, index));
-            CurrentTurn.Next(() => _animations.Grow(newCell.transform, Vector3.one).Play(newCell));
+            CurrentTurn.AddAction(() => _grid.SetCell(newCell, index));
+            CurrentTurn.AddAction(() => _animations.Grow(newCell.transform, Vector3.one).Play(newCell));
         }
 
         public CellSpawnerState GetSpawnerState()

@@ -10,6 +10,7 @@ namespace Cells.Components
     /// <summary>
     /// Cell component that allow cell to damage and heal the cell.
     /// </summary>
+    [Obsolete("Use common damageable component instead")]
     public sealed class DamageableLegacy : CellComponent, IDamageable, IHealable
     {
         [SerializeField]

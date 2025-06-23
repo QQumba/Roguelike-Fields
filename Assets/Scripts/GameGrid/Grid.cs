@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using Cells;
 using Cells.Components;
+using Cells.Components.Interfaces;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -103,6 +104,14 @@ namespace GameGrid
         {
             var index = IndexOf(cell);
             return GetAdjacentCells(index);
+        }
+
+        public List<T> GetAdjacentCellsComponent<T>(Cell cell) where T : ICellComponent
+        {
+            return GetAdjacentCells(cell)
+                .Where(x => x.HasCellComponent<T>())
+                .Select(x => x.GetCellComponent<T>())
+                .ToList();
         }
 
         public List<Cell> GetAdjacentCells(Vector2Int index)

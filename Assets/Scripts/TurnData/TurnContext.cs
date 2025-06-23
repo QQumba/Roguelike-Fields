@@ -60,7 +60,7 @@ namespace TurnData
                     return;
                 }
 
-                this.Next(_onTurnEnded);
+                this.AddAction(_onTurnEnded);
                 _onTurnEndedTriggered = true;
             }
 

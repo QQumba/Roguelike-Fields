@@ -14,7 +14,7 @@ namespace Effects
         {
             var particles = GetComponent<ParticleSystem>();
             particles.Play();
-            GridController.Instance.CurrentTurn.Next(() => Coroutines.Wait(particles.main.duration), "wait for particles"); 
+            GridController.Instance.CurrentTurn.AddAction(() => Coroutines.Wait(particles.main.duration), "wait for particles"); 
         }
     }
 }

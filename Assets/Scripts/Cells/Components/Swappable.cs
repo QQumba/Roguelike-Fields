@@ -1,6 +1,8 @@
 ﻿namespace Cells.Components
 {
-    // bad name
+    /// <summary>
+    /// Mark cells that will swap place with player when activated
+    /// </summary>
     public class Swappable : CellComponent, IVisitable
     {
         public override string CellTag => "swappable";

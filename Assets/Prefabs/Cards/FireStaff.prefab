@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 665e3497b1ec409fb04987eed6fd3584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 0}
+  health: {fileID: 8589131104827410328}
   diedEvent:
     m_PersistentCalls:
       m_Calls:
@@ -260,6 +260,7 @@ MonoBehaviour:
   healingAppliedEvent:
     m_PersistentCalls:
       m_Calls: []
+  dropPrefab: {fileID: 0}
 --- !u!114 &5472229850426135565
 MonoBehaviour:
   m_ObjectHideFlags: 0

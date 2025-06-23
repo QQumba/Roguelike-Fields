@@ -15,25 +15,18 @@ namespace Cells.Components
     {
         [SerializeField]
         private int damage = 6;
-        
+
         [SerializeField]
         private ValueProvider turnsToExplosion;
 
-        private GridController _gridController;
-        
         public override string CellTag => "bomb";
-
-        private void Start()
-        {
-            _gridController = GridController.Instance;
-        }
 
         public override void OnTurnEnded()
         {
             base.OnTurnEnded();
 
             turnsToExplosion.Value--;
-            
+
             if (turnsToExplosion.Value == 0)
             {
                 Explode();
@@ -42,26 +35,16 @@ namespace Cells.Components
 
         private void Explode()
         {
-            var damageables = GetSurroundingDamageables();
+            var controller = GridController.Instance;
+            var turn = controller.CurrentTurn;
+
+            var damageables = Grid.Instance.GetAdjacentCellsComponent<IDamageable>(Cell);
             foreach (var damageable in damageables)
             {
-                _gridController.CurrentTurn.Next(() => damageable.DealDamage(damage));    
+                turn.AddAction(() => damageable.DealDamage(damage));
             }
 
-            _gridController.CurrentTurn.Next(() =>
-                _gridController.CurrentTurn.Next(() =>
-                    _gridController.Remove(Cell)));
-        }
-
-        private IEnumerable<IDamageable> GetSurroundingDamageables()
-        {
-            var grid = Grid.Instance;
- 
-            var damageables = grid.GetAdjacentCells(Cell)
-                .Where(x => x.HasCellComponent<IDamageable>())
-                .Select(x => x.GetCellComponent<IDamageable>());
-            
-            return damageables;
+            turn.AddAction(() => turn.AddAction(() => controller.Remove(Cell)));
         }
     }
 }

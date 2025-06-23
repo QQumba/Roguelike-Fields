@@ -42,9 +42,9 @@ namespace Cells.Components
 
             // currently constant value
             // this can be changed when I add value to coins
-            controller.CurrentTurn.Next(() => StealGold(coin.Cell.transform.position, Cell.transform.position));
-            controller.CurrentTurn.Next(() => controller.ReplaceWithEmpty(coin.Cell));
-            controller.CurrentTurn.Next(() =>
+            controller.CurrentTurn.AddAction(() => StealGold(coin.Cell.transform.position, Cell.transform.position));
+            controller.CurrentTurn.AddAction(() => controller.ReplaceWithEmpty(coin.Cell));
+            controller.CurrentTurn.AddAction(() =>
             {
                 health.MaxValue += 4;
                 health.Value += 4;
@@ -57,7 +57,7 @@ namespace Cells.Components
             
             StartCoroutine(DestroyProjectile(projectile.gameObject));
             
-            GridController.Instance.CurrentTurn.Next(() => Move(projectile, to));
+            GridController.Instance.CurrentTurn.AddAction(() => Move(projectile, to));
         }
         
         private IEnumerator DestroyProjectile(Object objectToDestroy)

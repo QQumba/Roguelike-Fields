@@ -32,9 +32,9 @@ namespace Cells.Weapons
 
             var slash = Instantiate(slashPrefab, a, Quaternion.identity);
 
-            CurrentTurn.Next(() => new MoveAsync(slash, b, a, speed).Play());
-            CurrentTurn.Next(() => Destroy(slash.gameObject));
-            CurrentTurn.Next(() =>
+            CurrentTurn.AddAction(() => new MoveAsync(slash, b, a, speed).Play());
+            CurrentTurn.AddAction(() => Destroy(slash.gameObject));
+            CurrentTurn.AddAction(() =>
             {
                 var damageDealt = enemy.Damageable.DealDamage(Damage.Value);
                 Damage.Value -= damageDealt;

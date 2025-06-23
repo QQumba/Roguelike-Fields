@@ -30,9 +30,9 @@ namespace Cells.Weapons
 
             transform.position = a;
 
-            _gridController.CurrentTurn.Next(() => new MoveAsync(transform, b, a, speed).Play());
+            _gridController.CurrentTurn.AddAction(() => new MoveAsync(transform, b, a, speed).Play());
 
-            _gridController.CurrentTurn.Next(() =>
+            _gridController.CurrentTurn.AddAction(() =>
             {
                 _trail.Clear();
             });

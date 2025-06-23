@@ -12,7 +12,7 @@ namespace Animations.AsyncAnimations
         private readonly Vector3 _targetScale;
         private readonly float _speed;
 
-        private float _projectileAcceleration = 10f;
+        private float _projectileAcceleration = 10f; // projectile??
         private float _initialSpeed = 5f;
         
         private bool _stopRequested;

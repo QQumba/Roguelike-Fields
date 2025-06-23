@@ -12,7 +12,7 @@ public class InputHandler : MonoBehaviour
     private Grid _grid;
     private GridController _controller;
 
-    private bool _waitForInput = true;
+    private bool _turnExecuting = true;
 
     private void Start()
     {
@@ -24,7 +24,8 @@ public class InputHandler : MonoBehaviour
 
     private void HandleClick(Cell cell)
     {
-        if (!_waitForInput)
+        // ignore input if turn is executing
+        if (_turnExecuting)
         {
             return;
         }
@@ -39,23 +40,24 @@ public class InputHandler : MonoBehaviour
         var turnDirection = _grid.GetTurnDirection(cell);
 
         _controller.CurrentTurn.TurnDirection = turnDirection;
-        _controller.CurrentTurn.Next(() =>
+        _controller.CurrentTurn.AddAction(() =>
         {
             var hero = _grid.Hero.GetCellComponent<Hero>();
             cell.Interaction.InteractWith(hero);
         });
 
-        _waitForInput = false;
-        _controller.CurrentTurn.TurnFinished += () => _waitForInput = true;
+        _turnExecuting = true;
+        _controller.CurrentTurn.TurnFinished += () => _turnExecuting = false;
         _controller.CurrentTurn.StartTurn();
     }
 
+    // need some rework
     private void PulseCell(Cell cell)
     {
         const float pulseSpeed = 16f;
         var pulseScale = new Vector3(0.85f, 0.85f, 1f);
         
-        _controller.CurrentTurn.Next(() => new ScaleAsync(cell.transform, pulseScale, speed: pulseSpeed).Play(cell));
-        // _controller.CurrentTurn.Next(() => new ScaleAsync(cell.transform, Vector3.one, speed: pulseSpeed).Play(cell));
+        _controller.CurrentTurn.AddAction(() => new ScaleAsync(cell.transform, pulseScale, speed: pulseSpeed).Play(cell));
+        // _controller.CurrentTurn.AddAction(() => new ScaleAsync(cell.transform, Vector3.one, speed: pulseSpeed).Play(cell));
     }
 }

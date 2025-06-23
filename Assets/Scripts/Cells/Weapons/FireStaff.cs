@@ -37,7 +37,7 @@ namespace Cells.Weapons
             var enemyPosition = enemy.Cell.transform.position;
 
             FireProjectile(heroPosition, enemyPosition);
-            CurrentTurn.Next(() =>
+            CurrentTurn.AddAction(() =>
             {
                 var damageDealt = enemy.Damageable.DealDamage(Damage.Value);
                 
@@ -76,7 +76,7 @@ namespace Cells.Weapons
             FireProjectile(originalEnemyPosition, damageablePosition);
 
             var damageValue = Damage.Value;
-            CurrentTurn.Next(() => damageable.DealDamage(damageValue));
+            CurrentTurn.AddAction(() => damageable.DealDamage(damageValue));
         }
 
         private void FireProjectile(Vector3 from, Vector3 to)
@@ -87,8 +87,8 @@ namespace Cells.Weapons
             Destroy(projectile.gameObject, 2);
             Destroy(fireBlast.gameObject, 2);
             
-            CurrentTurn.Next(() => Move(projectile, to));
-            CurrentTurn.Next(() =>
+            CurrentTurn.AddAction(() => Move(projectile, to));
+            CurrentTurn.AddAction(() =>
             {
                 fireBlast.Play();
                 return Coroutines.Wait(fireBlast.main.duration);
